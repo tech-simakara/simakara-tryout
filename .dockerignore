@@ -1,4 +1,6 @@
-/.phpunit.cache
+.git
+.gitignore
+/phpunit.cache
 /bootstrap/ssr
 /node_modules
 /public/build
@@ -23,3 +25,4 @@ yarn-error.log
 /.vscode
 /.zed
 docker/pgsql/data
+compose.yaml
