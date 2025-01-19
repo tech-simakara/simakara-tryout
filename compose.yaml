@@ -1,20 +1,20 @@
 services:
-  pgsql:
-    container_name: pgsql
-    image: postgres:17-bookworm
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: '${DB_DATABASE}'
-      POSTGRES_USER: '${DB_USERNAME}'
-      POSTGRES_PASSWORD: '${DB_PASSWORD}'
-    volumes:
-      - ./docker/pgsql/data:/var/lib/postgresql/data
-    networks:
-        - simakara-tryout
+    pgsql:
+        container_name: pgsql
+        image: postgres:17-bookworm
+        restart: unless-stopped
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD}'
+        volumes:
+            - ./docker/pgsql/data:/var/lib/postgresql/data
+        networks:
+            - simakara-tryout
 
 networks:
-  simakara-tryout:
-    name: simakara-tryout
-    driver: bridge
+    simakara-tryout:
+        name: simakara-tryout
+        driver: bridge
