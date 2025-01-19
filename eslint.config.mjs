@@ -15,7 +15,14 @@ const compat = new FlatCompat({
 
 export default [
 	{
-		ignores: ['**/bootstrap/ssr/*', '**/node_modules/*', '**/vendor/*', '**/public/build/*'],
+		ignores: [
+			'**/bootstrap/ssr/*',
+			'**/node_modules/*',
+			'**/vendor/*',
+			'**/public/build/*',
+			'**/docker/pgsql/data/*',
+			'**/docker/mailpit/data/*',
+		],
 	},
 	...fixupConfigRules(
 		compat.extends(

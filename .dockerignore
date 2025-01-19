@@ -25,4 +25,5 @@ yarn-error.log
 /.vscode
 /.zed
 docker/pgsql/data
+docker/mailpit/data
 compose.yaml
