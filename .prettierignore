@@ -18,4 +18,5 @@ yarn-error.log
 package-lock.json
 composer.lock
 docker/pgsql/data
+docker/mailpit/data
 README.md

@@ -13,6 +13,22 @@ services:
             - ./docker/pgsql/data:/var/lib/postgresql/data
         networks:
             - simakara-tryout
+    mailpit:
+      container_name: mailpit
+      image: axllent/mailpit:latest
+      restart: unless-stopped
+      ports:
+        - "8025:8025"
+        - "1025:1025"
+      environment:
+        MP_MAX_MESSAGES: 100
+        MP_DATABASE: /data/mailpit.db
+        MP_SMTP_AUTH_ACCEPT_ANY: 1
+        MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      volumes:
+        - ./docker/mailpit/data:/data
+      networks:
+        - simakara-tryout
 
 networks:
     simakara-tryout:
