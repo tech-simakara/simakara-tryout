@@ -2,6 +2,19 @@
 
 return [
 
+	/*
+    |--------------------------------------------------------------------------
+    | Company Name
+    |--------------------------------------------------------------------------
+    |
+    | This value represents the official name of your company, which will be
+    | displayed in notifications, UI elements, or anywhere a company name
+    | needs to be shown within the application.
+    |
+    */
+
+	'company' => env('COMPANY_NAME', 'Laravel'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
