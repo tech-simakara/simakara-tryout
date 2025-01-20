@@ -1,11 +1,11 @@
-import InputError from '@/components/InputError';
+/*import InputError from '@/components/InputError';
 import InputLabel from '@/components/InputLabel';
 import PrimaryButton from '@/components/PrimaryButton';
 import TextInput from '@/components/TextInput';
 import GuestLayout from '@/layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';*/
 
-export default function Register() {
+/*export default function Register() {
 	const { data, setData, post, processing, errors, reset } = useForm({
 		name: '',
 		email: '',
@@ -136,4 +136,19 @@ export default function Register() {
 			</form>
 		</GuestLayout>
 	);
-}
+}*/
+
+import { RegisterForm } from '@/components/auth/RegisterForm';
+import AuthLayout from '@/layouts/AuthLayout';
+
+const Register = () => {
+	return (
+		<section className='w-full max-w-sm'>
+			<RegisterForm />
+		</section>
+	);
+};
+
+Register.layout = (children) => <AuthLayout title={'Daftar'}>{children}</AuthLayout>;
+
+export default Register;
