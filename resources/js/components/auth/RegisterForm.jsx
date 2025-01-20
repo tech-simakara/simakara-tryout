@@ -28,7 +28,12 @@ export function RegisterForm({ className, ...props }) {
 		await new Promise(() => {
 			router.post(route('register'), data, {
 				onFinish: () => {
-					reset({ name: data.name, email: data.email, password: '', password_confirmation: '' });
+					reset({
+						name: data.name,
+						email: data.email,
+						password: '',
+						password_confirmation: '',
+					});
 				},
 			});
 		});
@@ -72,7 +77,7 @@ export function RegisterForm({ className, ...props }) {
 												<Input
 													className={cn(
 														errors.name &&
-														'border-destructive focus-visible:ring-destructive',
+															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='name'
 													type='text'
@@ -94,7 +99,7 @@ export function RegisterForm({ className, ...props }) {
 												<Input
 													className={cn(
 														errors.email &&
-														'border-destructive focus-visible:ring-destructive',
+															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='email'
 													type='email'
@@ -115,7 +120,7 @@ export function RegisterForm({ className, ...props }) {
 												<Input
 													className={cn(
 														errors.password &&
-														'border-destructive focus-visible:ring-destructive',
+															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password'
 													type='password'
@@ -131,12 +136,14 @@ export function RegisterForm({ className, ...props }) {
 									name='password_confirmation'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel htmlFor='password_confirmation'>Konfirmasi Kata Sandi</FormLabel>
+											<FormLabel htmlFor='password_confirmation'>
+												Konfirmasi Kata Sandi
+											</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
 														errors.password_confirmation &&
-														'border-destructive focus-visible:ring-destructive',
+															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password_confirmation'
 													type='password'
