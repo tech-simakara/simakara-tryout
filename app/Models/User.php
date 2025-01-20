@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\auth\MustVerifyEmail;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,4 +48,16 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+	/**
+	 * Send a password reset notification to the user.
+	 *
+	 * @param  string  $token
+	 */
+	public function sendPasswordResetNotification($token): void
+	{
+		$url = route('password.reset', ['token' => $token]).'?email='.urlencode($this->email);
+
+		$this->notify(new ResetPasswordNotification($url));
+	}
 }
