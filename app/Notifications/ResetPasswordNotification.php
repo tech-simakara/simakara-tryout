@@ -37,10 +37,10 @@ class ResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-			->subject('Atur Ulang Kata Sandi')
+			->subject('Reset Kata Sandi')
 			->greeting('Selamat Datang Kembali!')
 			->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda di SIMAKARA Tryout. Silakan klik tombol di bawah ini untuk melanjutkan proses pengaturan ulang kata sandi.')
-			->action('Atur Ulang Kata Sandi', $this->url)
+			->action('Reset Kata Sandi', $this->url)
 			->line('Jika Anda tidak mengubah kata sandi akun SIMAKARA Tryout, tidak perlu melakukan tindakan lebih lanjut. Anda dapat mengabaikan email ini dengan aman.');
     }
 
