@@ -24,7 +24,7 @@ const Login = ({ status, canResetPassword }) => {
 							/>
 						</svg>
 						<span className='sr-only'>Success</span>
-						<h3 className='text-lg font-medium'>Kata Sandi Diubah</h3>
+						<h3 className='text-lg font-medium'>Reset kata sandi</h3>
 					</div>
 					<div className='mb-4 mt-2 text-sm'>{status}</div>
 				</div>
