@@ -1,6 +1,5 @@
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
-import { Checkbox } from '@/components/Checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
 import { cn } from '@/lib/utils';
@@ -10,14 +9,15 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export function LoginForm({ canResetPassword, className, ...props }) {
+export function RegisterForm({ className, ...props }) {
 	const { errors } = usePage().props;
 
 	const form = useForm({
 		defaultValues: {
+			name: '',
 			email: '',
 			password: '',
-			remember: false,
+			password_confirmation: '',
 		},
 	});
 
@@ -26,9 +26,9 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 
 	async function onSubmit(data) {
 		await new Promise(() => {
-			router.post(route('login'), data, {
+			router.post(route('register'), data, {
 				onFinish: () => {
-					reset({ email: data.email, password: '', remember: data.remember });
+					reset({ name: data.name, email: data.email, password: '', password_confirmation: '' });
 				},
 			});
 		});
@@ -36,7 +36,7 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 
 	useEffect(() => {
 		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['email', 'password', 'remember']);
+			const errorSchema = z.enum(['name', 'email', 'password', 'password_confirmation']);
 			if (errorSchema.safeParse(error).success) {
 				setError(error, {
 					type: 'server',
@@ -53,15 +53,37 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 		>
 			<Card>
 				<CardHeader>
-					<CardTitle className='text-2xl'>Masuk</CardTitle>
+					<CardTitle className='text-2xl'>Daftar</CardTitle>
 					<CardDescription>
-						Masukkan email Anda di bawah ini untuk masuk ke akun Anda.
+						Masukkan data Anda di bawah ini untuk membuat akun baru.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className='flex flex-col gap-6'>
+								<FormField
+									control={control}
+									name='name'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel htmlFor='name'>Nama Lengkap</FormLabel>
+											<FormControl>
+												<Input
+													className={cn(
+														errors.name &&
+														'border-destructive focus-visible:ring-destructive',
+													)}
+													id='name'
+													type='text'
+													autoFocus
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 								<FormField
 									control={control}
 									name='email'
@@ -72,11 +94,10 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 												<Input
 													className={cn(
 														errors.email &&
-															'border-destructive focus-visible:ring-destructive',
+														'border-destructive focus-visible:ring-destructive',
 													)}
 													id='email'
 													type='email'
-													autoFocus
 													{...field}
 												/>
 											</FormControl>
@@ -89,22 +110,12 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 									name='password'
 									render={({ field }) => (
 										<FormItem>
-											<div className='flex items-center'>
-												<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
-												{canResetPassword && (
-													<Link
-														href={route('password.request')}
-														className='ml-auto inline-block text-sm underline-offset-4 transition hover:text-secondary hover:underline'
-													>
-														Lupa kata sandi?
-													</Link>
-												)}
-											</div>
+											<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
 														errors.password &&
-															'border-destructive focus-visible:ring-destructive',
+														'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password'
 													type='password'
@@ -117,18 +128,22 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 								/>
 								<FormField
 									control={control}
-									name='remember'
+									name='password_confirmation'
 									render={({ field }) => (
-										<FormItem className='flex flex-row items-start space-y-0'>
+										<FormItem>
+											<FormLabel htmlFor='password_confirmation'>Konfirmasi Kata Sandi</FormLabel>
 											<FormControl>
-												<Checkbox
-													checked={field.value}
-													onCheckedChange={field.onChange}
+												<Input
+													className={cn(
+														errors.password_confirmation &&
+														'border-destructive focus-visible:ring-destructive',
+													)}
+													id='password_confirmation'
+													type='password'
+													{...field}
 												/>
 											</FormControl>
-											<div className='ml-2 leading-none'>
-												<FormLabel>Ingat saya</FormLabel>
-											</div>
+											<FormMessage />
 										</FormItem>
 									)}
 								/>
@@ -143,17 +158,17 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 											Sedang memuat...
 										</>
 									) : (
-										'Masuk'
+										'Daftar'
 									)}
 								</Button>
 							</div>
 							<div className='mt-4 text-center text-sm'>
-								Belum memiliki akun?{' '}
+								Sudah memiliki akun?{' '}
 								<Link
-									href={route('register')}
+									href={route('login')}
 									className='underline underline-offset-4 transition-colors hover:text-secondary'
 								>
-									Daftar
+									Masuk
 								</Link>
 							</div>
 						</form>

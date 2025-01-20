@@ -154,7 +154,7 @@ return [
 	'starts_with' => 'Kolom :attribute harus diawali dengan salah satu dari berikut ini: :values.',
 	'string' => 'Kolom :attribute harus berupa string.',
 	'timezone' => 'Kolom :attribute harus merupakan zona waktu yang valid.',
-	'unique' => ':attribute sudah digunakan.',
+	'unique' => 'Data sudah digunakan.',
 	'uploaded' => 'Gagal mengunggah :attribute.',
 	'uppercase' => 'Kolom :attribute harus menggunakan huruf kapital.',
 	'url' => 'Kolom :attribute harus merupakan URL yang valid.',
