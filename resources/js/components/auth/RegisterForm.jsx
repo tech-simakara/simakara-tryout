@@ -66,7 +66,7 @@ export function RegisterForm({ className, ...props }) {
 				<CardContent>
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)}>
-							<div className='flex flex-col gap-6'>
+							<div className='flex flex-col gap-4'>
 								<FormField
 									control={control}
 									name='name'
