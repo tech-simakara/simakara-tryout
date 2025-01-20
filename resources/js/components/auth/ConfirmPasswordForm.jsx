@@ -67,7 +67,7 @@ export function ConfirmPasswordForm({ className, ...props }) {
 										name='password'
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel htmlFor='password'>Email</FormLabel>
+												<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
 												<FormControl>
 													<Input
 														className={cn(
