@@ -82,4 +82,16 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
+
+	/**
+	 * Get custom attributes for validator errors.
+	 *
+	 * @return array<string, string>
+	 */
+	public function attributes(): array
+	{
+		return [
+			'password' => 'kata sandi',
+		];
+	}
 }

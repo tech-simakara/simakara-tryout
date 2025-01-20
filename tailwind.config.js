@@ -1,4 +1,4 @@
-import forms from '@tailwindcss/forms';
+/*import forms from '@tailwindcss/forms';*/
 import tailwindcssAnimate from 'tailwindcss-animate';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -161,5 +161,5 @@ export default {
 			},
 		},
 	},
-	plugins: [forms, tailwindcssAnimate],
+	plugins: [tailwindcssAnimate],
 };
