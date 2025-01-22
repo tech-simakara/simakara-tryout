@@ -81,11 +81,11 @@ export function UserNav() {
 						asChild
 					>
 						<Link
-							href='/account'
+							href={route('profile.edit')}
 							className='flex items-center'
 						>
 							<User className='mr-1 h-4 w-4 text-muted-foreground' />
-							Akun
+							Profil
 						</Link>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>

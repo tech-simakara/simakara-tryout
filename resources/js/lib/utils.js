@@ -5,6 +5,10 @@ export function cn(...inputs) {
 	return twMerge(clsx(inputs));
 }
 
+export function getPathname(routeName) {
+	return new URL(route(routeName)).pathname;
+}
+
 export function getInitials(name) {
 	if (!name) return 'ST';
 	return name
