@@ -12,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import { Link, usePage } from '@inertiajs/react';
 import { DropdownMenuArrow } from '@radix-ui/react-dropdown-menu';
-import { ChevronDown, Dot } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
@@ -40,9 +40,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 					<div className='flex w-full items-center justify-between'>
 						<div className='flex items-center'>
 							<span className='mr-4'>
-								<Icon
-									size={18}
-								/>
+								<Icon size={18} />
 							</span>
 							<p
 								className={cn(
@@ -67,7 +65,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 					</div>
 				</Button>
 			</CollapsibleTrigger>
-			<CollapsibleContent className='border-l ml-4 pl-2 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
+			<CollapsibleContent className='ml-4 overflow-hidden border-l pl-2 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
 				{submenus.map(({ href, label, active }, index) => (
 					<Button
 						key={index}
@@ -87,7 +85,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						<Link href={href}>
 							<p
 								className={cn(
-									'max-w-[170px] transition-all duration-300 ml-2',
+									'ml-2 max-w-[170px] transition-all duration-300',
 									isOpen ? 'opacity-100' : 'opacity-0',
 								)}
 							>
