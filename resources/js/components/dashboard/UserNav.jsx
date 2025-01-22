@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/Avatar';
+import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import {
 	DropdownMenu,
@@ -10,10 +11,12 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/DropdownMenu';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { LayoutGrid, LogOut, User } from 'lucide-react';
 
 export function UserNav() {
+	const { user } = usePage().props.auth;
+
 	return (
 		<DropdownMenu>
 			<TooltipProvider disableHoverableContent>
@@ -44,10 +47,18 @@ export function UserNav() {
 			>
 				<DropdownMenuLabel className='font-normal'>
 					<div className='flex flex-col space-y-1'>
-						<p className='text-sm font-medium leading-none'>Muhammad Aziz Prasetyo</p>
-						<p className='text-xs leading-none text-muted-foreground'>
-							muhammadazizprasetyo@example.com
-						</p>
+						<p className='text-sm font-medium leading-none'>{user.name}</p>
+						<p className='text-xs leading-none text-muted-foreground'>{user.email}</p>
+					</div>
+					<div className='flex flex-wrap gap-1'>
+						{user.roles.map((role, index) => (
+							<Badge
+								key={index}
+								className='mt-2 w-fit'
+							>
+								{role.label}
+							</Badge>
+						))}
 					</div>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />

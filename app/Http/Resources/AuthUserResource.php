@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +26,12 @@ class AuthUserResource extends JsonResource
 				->map(function ($permission) {
 					return $permission->name;
 				}),
-			'roles' => $this->getRoleNames()
+			'roles' => $this->getRoleNames()->map(function ($role) {
+				return [
+					'name' => $role,
+					'label' => RoleEnum::labels()[$role] ?? $role
+				];
+			}),
 		];
     }
 }
