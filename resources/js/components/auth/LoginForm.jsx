@@ -89,17 +89,7 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 									name='password'
 									render={({ field }) => (
 										<FormItem>
-											<div className='flex items-center'>
-												<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
-												{canResetPassword && (
-													<Link
-														href={route('password.request')}
-														className='ml-auto inline-block text-sm underline-offset-4 transition hover:text-secondary hover:underline'
-													>
-														Lupa kata sandi?
-													</Link>
-												)}
-											</div>
+											<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
@@ -115,23 +105,33 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 										</FormItem>
 									)}
 								/>
-								<FormField
-									control={control}
-									name='remember'
-									render={({ field }) => (
-										<FormItem className='flex flex-row items-start space-y-0'>
-											<FormControl>
-												<Checkbox
-													checked={field.value}
-													onCheckedChange={field.onChange}
-												/>
-											</FormControl>
-											<div className='ml-2 leading-none'>
-												<FormLabel>Ingat saya</FormLabel>
-											</div>
-										</FormItem>
+								<div className='flex items-center'>
+									<FormField
+										control={control}
+										name='remember'
+										render={({ field }) => (
+											<FormItem className='flex flex-row items-start space-y-0'>
+												<FormControl>
+													<Checkbox
+														checked={field.value}
+														onCheckedChange={field.onChange}
+													/>
+												</FormControl>
+												<div className='ml-2 leading-none'>
+													<FormLabel>Ingat saya</FormLabel>
+												</div>
+											</FormItem>
+										)}
+									/>
+									{canResetPassword && (
+										<Link
+											href={route('password.request')}
+											className='ml-auto inline-block text-sm underline-offset-4 transition hover:text-secondary hover:underline'
+										>
+											Lupa kata sandi?
+										</Link>
 									)}
-								/>
+								</div>
 								<Button
 									type='submit'
 									className='w-full'
