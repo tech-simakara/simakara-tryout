@@ -1,6 +1,7 @@
 import '../css/app.css';
 import './bootstrap';
 
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
@@ -13,11 +14,28 @@ createInertiaApp({
 		resolvePageComponent(`./pages/${name}.jsx`, import.meta.glob('./pages/**/*.jsx')),
 	setup({ el, App, props }) {
 		if (import.meta.env.SSR) {
-			hydrateRoot(el, <App {...props} />);
+			hydrateRoot(
+				el,
+				<ThemeProvider
+					defaultTheme='light'
+					storageKey='theme'
+					disableTransitionOnChange
+				>
+					<App {...props} />
+				</ThemeProvider>,
+			);
 			return;
 		}
 
-		createRoot(el).render(<App {...props} />);
+		createRoot(el).render(
+			<ThemeProvider
+				defaultTheme='light'
+				storageKey='theme'
+				disableTransitionOnChange
+			>
+				<App {...props} />
+			</ThemeProvider>,
+		);
 	},
 	progress: {
 		color: 'hsla(34, 76%, 55%, 1)',
