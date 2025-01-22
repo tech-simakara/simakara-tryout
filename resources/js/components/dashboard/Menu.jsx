@@ -62,7 +62,7 @@ export function Menu({ isOpen }) {
 													>
 														<Link href={href}>
 															<Icon
-																className='mr-4'
+																className='mr-2'
 																size={18}
 															/>
 															<p
