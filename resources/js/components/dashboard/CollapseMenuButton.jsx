@@ -41,7 +41,6 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						<div className='flex items-center'>
 							<span className='mr-4'>
 								<Icon
-									className='mr-4'
 									size={18}
 								/>
 							</span>
@@ -68,7 +67,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 					</div>
 				</Button>
 			</CollapsibleTrigger>
-			<CollapsibleContent className='overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
+			<CollapsibleContent className='border-l ml-4 pl-2 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
 				{submenus.map(({ href, label, active }, index) => (
 					<Button
 						key={index}
@@ -86,12 +85,9 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						asChild
 					>
 						<Link href={href}>
-							<span className='ml-2 mr-4'>
-								<Dot size={18} />
-							</span>
 							<p
 								className={cn(
-									'max-w-[170px] transition-all duration-300',
+									'max-w-[170px] transition-all duration-300 ml-2',
 									isOpen ? 'opacity-100' : 'opacity-0',
 								)}
 							>
