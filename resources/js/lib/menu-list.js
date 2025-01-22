@@ -1,4 +1,5 @@
-import { LayoutGrid, Settings, Users } from 'lucide-react';
+import { LayoutGrid, User, Users } from 'lucide-react';
+import { getPathname } from '@/lib/utils';
 
 export function getMenuList() {
 	return [
@@ -6,7 +7,7 @@ export function getMenuList() {
 			groupLabel: '',
 			menus: [
 				{
-					href: '/dashboard',
+					href: getPathname('dashboard'),
 					label: 'Dashboard',
 					icon: LayoutGrid,
 					submenus: [],
@@ -22,11 +23,11 @@ export function getMenuList() {
 					icon: Users,
 					submenus: [
 						{
-							href: '/users',
+							href: 'dashboard/users',
 							label: 'Daftar Pengguna',
 						},
 						{
-							href: '/users/create',
+							href: 'dashboard/users/create',
 							label: 'Tambah Pengguna',
 						},
 					],
@@ -37,9 +38,9 @@ export function getMenuList() {
 			groupLabel: 'Pengaturan',
 			menus: [
 				{
-					href: '/account',
-					label: 'Akun',
-					icon: Settings,
+					href: getPathname('profile.edit'),
+					label: 'Profil',
+					icon: User,
 				},
 			],
 		},

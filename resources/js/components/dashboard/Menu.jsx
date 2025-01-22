@@ -24,7 +24,7 @@ export function Menu({ isOpen }) {
 								<p className='max-w-[248px] px-4 pb-2 text-sm font-medium text-muted-foreground'>
 									{groupLabel}
 								</p>
-							) : !isOpen && isOpen !== undefined && groupLabel ? (
+							) : !isOpen && true && groupLabel ? (
 								<TooltipProvider>
 									<Tooltip delayDuration={100}>
 										<TooltipTrigger className='w-full'>
@@ -118,7 +118,7 @@ export function Menu({ isOpen }) {
 											<LogOut
 												className={cn(
 													'transition-all duration-300',
-													isOpen === false ? '-mr-12' : 'mr-4',
+													isOpen === false ? '-mr-12' : 'mr-2',
 												)}
 												size={18}
 											/>

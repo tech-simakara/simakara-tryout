@@ -13,6 +13,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip';
 import { Link, usePage } from '@inertiajs/react';
 import { LayoutGrid, LogOut, User } from 'lucide-react';
+import { getInitials } from '@/lib/utils.js';
 
 export function UserNav() {
 	const { user } = usePage().props.auth;
@@ -32,7 +33,7 @@ export function UserNav() {
 										src='#'
 										alt='Avatar'
 									/>
-									<AvatarFallback className='bg-transparent'>ST</AvatarFallback>
+									<AvatarFallback className='bg-transparent'>{getInitials(user.name)}</AvatarFallback>
 								</Avatar>
 							</Button>
 						</DropdownMenuTrigger>
@@ -68,10 +69,10 @@ export function UserNav() {
 						asChild
 					>
 						<Link
-							href='/dashboard'
+							href={route('dashboard')}
 							className='flex items-center'
 						>
-							<LayoutGrid className='mr-3 h-4 w-4 text-muted-foreground' />
+							<LayoutGrid className='mr-1 h-4 w-4 text-muted-foreground' />
 							Dashboard
 						</Link>
 					</DropdownMenuItem>
@@ -80,11 +81,11 @@ export function UserNav() {
 						asChild
 					>
 						<Link
-							href='/account'
+							href={route('profile.edit')}
 							className='flex items-center'
 						>
-							<User className='mr-3 h-4 w-4 text-muted-foreground' />
-							Akun
+							<User className='mr-1 h-4 w-4 text-muted-foreground' />
+							Profil
 						</Link>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
@@ -99,7 +100,7 @@ export function UserNav() {
 							method='post'
 							href={route('logout')}
 						>
-							<LogOut className='mr-3 h-4 w-4' />
+							<LogOut className='mr-1 h-4 w-4' />
 							Keluar
 						</Link>
 					</Button>
