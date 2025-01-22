@@ -68,7 +68,7 @@ export function UserNav() {
 						asChild
 					>
 						<Link
-							href='/dashboard'
+							href={route('dashboard')}
 							className='flex items-center'
 						>
 							<LayoutGrid className='mr-1 h-4 w-4 text-muted-foreground' />
