@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\VerifiedNotification;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Notification;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -68,5 +71,24 @@ class User extends Authenticatable implements MustVerifyEmail
 		$url = route('password.reset', ['token' => $token]).'?email='.urlencode($this->email);
 
 		$this->notify(new ResetPasswordNotification($url));
+	}
+
+	public function markEmailAsVerified(): bool
+	{
+		if ($this->hasVerifiedEmail()) {
+			return false;
+		}
+
+		$this->forceFill([
+			'email_verified_at' => now(),
+		])->save();
+
+		$this->fireModelEvent('verified', false);
+
+		$adminsAndMaintainers = $this->role(RoleEnum::Administrator->value)->get();
+
+		Notification::send($adminsAndMaintainers, new VerifiedNotification($this));
+
+		return true;
 	}
 }

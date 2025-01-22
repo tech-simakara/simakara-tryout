@@ -16,6 +16,13 @@
 
 @endforeach
 
+{{-- Details --}}
+@isset($details)
+@foreach ($details as $data)
+- {{ $data }}
+@endforeach
+@endisset
+
 {{-- Action Button --}}
 @isset($actionText)
 <?php

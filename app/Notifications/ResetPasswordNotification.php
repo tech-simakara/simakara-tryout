@@ -22,16 +22,6 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
-    {
-        return ['mail'];
-    }
-
-    /**
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
@@ -41,7 +31,8 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
 			->greeting('Selamat Datang Kembali!')
 			->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda di SIMAKARA Tryout. Silakan klik tombol di bawah ini untuk melanjutkan proses pengaturan ulang kata sandi.')
 			->action('Reset Kata Sandi', $this->url)
-			->line('Jika Anda tidak mengubah kata sandi akun SIMAKARA Tryout, tidak perlu melakukan tindakan lebih lanjut. Anda dapat mengabaikan email ini dengan aman.');
+			->line('Jika Anda tidak mengubah kata sandi akun SIMAKARA Tryout, tidak perlu melakukan tindakan lebih lanjut. Anda dapat mengabaikan email ini dengan aman.')
+			->line('Terima Kasih.');
     }
 
     /**
