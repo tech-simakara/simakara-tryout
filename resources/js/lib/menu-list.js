@@ -1,4 +1,4 @@
-import { LayoutGrid, Settings, Users } from 'lucide-react';
+import { LayoutGrid, User, Users } from 'lucide-react';
 
 export function getMenuList() {
 	return [
@@ -39,7 +39,7 @@ export function getMenuList() {
 				{
 					href: '/account',
 					label: 'Akun',
-					icon: Settings,
+					icon: User,
 				},
 			],
 		},
