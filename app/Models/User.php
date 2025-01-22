@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,6 +49,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+	/**
+	 * Send an email verification notification to the user.
+	 */
+	public function sendEmailVerificationNotification(): void
+	{
+		$this->notify(new VerifyEmailNotification());
+	}
 
 	/**
 	 * Send a password reset notification to the user.
