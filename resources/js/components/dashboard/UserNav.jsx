@@ -71,7 +71,7 @@ export function UserNav() {
 							href='/dashboard'
 							className='flex items-center'
 						>
-							<LayoutGrid className='mr-3 h-4 w-4 text-muted-foreground' />
+							<LayoutGrid className='mr-1 h-4 w-4 text-muted-foreground' />
 							Dashboard
 						</Link>
 					</DropdownMenuItem>
@@ -83,7 +83,7 @@ export function UserNav() {
 							href='/account'
 							className='flex items-center'
 						>
-							<User className='mr-3 h-4 w-4 text-muted-foreground' />
+							<User className='mr-1 h-4 w-4 text-muted-foreground' />
 							Akun
 						</Link>
 					</DropdownMenuItem>
@@ -99,7 +99,7 @@ export function UserNav() {
 							method='post'
 							href={route('logout')}
 						>
-							<LogOut className='mr-3 h-4 w-4' />
+							<LogOut className='mr-1 h-4 w-4' />
 							Keluar
 						</Link>
 					</Button>

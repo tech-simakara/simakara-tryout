@@ -118,7 +118,7 @@ export function Menu({ isOpen }) {
 											<LogOut
 												className={cn(
 													'transition-all duration-300',
-													isOpen === false ? '-mr-12' : 'mr-4',
+													isOpen === false ? '-mr-12' : 'mr-2',
 												)}
 												size={18}
 											/>
