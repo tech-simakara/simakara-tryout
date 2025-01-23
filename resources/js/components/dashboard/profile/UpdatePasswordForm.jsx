@@ -2,16 +2,15 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils';
+import { cn, getPathname } from '@/lib/utils';
 import { router, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 export function UpdatePasswordForm({ className, ...props }) {
-	const { errors } = usePage().props;
+	const pageErrors = usePage().props.errors;
 
 	const form = useForm({
 		defaultValues: {
@@ -21,39 +20,35 @@ export function UpdatePasswordForm({ className, ...props }) {
 		},
 	});
 
-	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting, isDirty } = formState;
+	const { control, handleSubmit, formState, resetField, setError } = form;
+	const { isSubmitting, isDirty, errors } = formState;
 
 	async function onSubmit(data) {
-		await new Promise(() => {
-			router.put(route('password.update'), data, {
+		await new Promise((resolve) => {
+			router.put(getPathname('password.update'), data, {
 				errorBag: 'updatePassword',
 				preserveScroll: true,
 				onSuccess: () => {
 					toast.success('Berhasil memperbarui kata sandi.');
 				},
 				onFinish: () => {
-					reset({
-						current_password: '',
-						password: '',
-						password_confirmation: '',
-					});
+					resetField('current_password');
+					resetField('password');
+					resetField('password_confirmation');
+					resolve();
 				},
 			});
 		});
 	}
 
 	useEffect(() => {
-		Object.keys(errors.updatePassword || {}).forEach((error) => {
-			const errorSchema = z.enum(['current_password', 'password', 'password_confirmation']);
-			if (errorSchema.safeParse(error).success) {
-				setError(error, {
-					type: 'server',
-					message: errors.updatePassword[error] || 'Terjadi kesalahan.',
-				});
-			}
+		Object.keys(pageErrors.updatePassword ?? {}).forEach((error) => {
+			setError(error, {
+				type: 'server',
+				message: pageErrors.updatePassword[error] || 'Terjadi kesalahan.',
+			});
 		});
-	}, [errors, setError]);
+	}, [pageErrors, setError]);
 
 	return (
 		<div
@@ -83,9 +78,7 @@ export function UpdatePasswordForm({ className, ...props }) {
 											<FormControl>
 												<Input
 													className={cn(
-														errors.updatePassword &&
-															errors.updatePassword
-																.current_password &&
+														errors.current_password &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='current_password'
@@ -108,8 +101,7 @@ export function UpdatePasswordForm({ className, ...props }) {
 											<FormControl>
 												<Input
 													className={cn(
-														errors.updatePassword &&
-															errors.updatePassword.password &&
+														errors.password &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password'
@@ -132,9 +124,7 @@ export function UpdatePasswordForm({ className, ...props }) {
 											<FormControl>
 												<Input
 													className={cn(
-														errors.updatePassword &&
-															errors.updatePassword
-																.password_confirmation &&
+														errors.password_confirmation &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password_confirmation'

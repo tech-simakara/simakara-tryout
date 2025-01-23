@@ -2,15 +2,14 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils';
+import { cn, getPathname } from '@/lib/utils';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ChevronLeft, Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 export function ForgotPasswordForm({ className, ...props }) {
-	const { errors } = usePage().props;
+	const pageErrors = usePage().props.errors;
 
 	const form = useForm({
 		defaultValues: {
@@ -18,30 +17,28 @@ export function ForgotPasswordForm({ className, ...props }) {
 		},
 	});
 
-	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting } = formState;
+	const { control, handleSubmit, formState, setError } = form;
+	const { isSubmitting, errors } = formState;
 
 	async function onSubmit(data) {
-		await new Promise(() => {
-			router.post(route('password.email'), data, {
+		await new Promise((resolve) => {
+			router.post(getPathname('password.email'), data, {
+				preserveScroll: true,
 				onFinish: () => {
-					reset({ email: data.email });
+					resolve();
 				},
 			});
 		});
 	}
 
 	useEffect(() => {
-		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['email']);
-			if (errorSchema.safeParse(error).success) {
-				setError(error, {
-					type: 'server',
-					message: errors[error] || 'Terjadi kesalahan.',
-				});
-			}
+		Object.keys(pageErrors).forEach((error) => {
+			setError(error, {
+				type: 'server',
+				message: pageErrors[error] || 'Terjadi kesalahan.',
+			});
 		});
-	}, [errors, setError]);
+	}, [pageErrors, setError]);
 
 	return (
 		<div

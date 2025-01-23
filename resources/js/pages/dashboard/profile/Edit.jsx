@@ -6,10 +6,10 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from '@/components/Breadcrumb';
-import { Card, CardContent } from '@/components/Card.jsx';
-import { DeleteUserForm } from '@/components/dashboard/profile/DeleteUserForm.jsx';
-import { UpdatePasswordForm } from '@/components/dashboard/profile/UpdatePasswordForm.jsx';
-import { UpdateProfileInformationForm } from '@/components/dashboard/profile/UpdateProfileInformationForm.jsx';
+import { Card, CardContent } from '@/components/Card';
+import { DeleteUserForm } from '@/components/dashboard/profile/DeleteUserForm';
+import { UpdatePasswordForm } from '@/components/dashboard/profile/UpdatePasswordForm';
+import { UpdateProfileInformationForm } from '@/components/dashboard/profile/UpdateProfileInformationForm';
 import { DashboardContentLayout } from '@/layouts/DashboardContentLayout';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { Link } from '@inertiajs/react';

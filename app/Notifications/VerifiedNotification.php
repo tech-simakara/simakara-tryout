@@ -45,6 +45,7 @@ class VerifiedNotification extends Notification implements ShouldQueue
 				'details' => [
 					"Nama Lengkap: {$this->user->name}",
 					"Email: {$this->user->email}",
+					"Peran: ".implode(', ', $this->user->getRoleLabels()),
 					"Waktu Pendaftaran: {$this->user->created_at->translatedFormat('l, d F Y H:i:s')}",
 					"Waktu Verifikasi: {$this->user->email_verified_at->translatedFormat('l, d F Y H:i:s')}"
 				],
