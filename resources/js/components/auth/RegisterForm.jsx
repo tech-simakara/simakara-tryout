@@ -2,12 +2,11 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils';
+import { cn, getPathname } from '@/lib/utils';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 export function RegisterForm({ className, ...props }) {
 	const pageErrors = usePage().props.errors;
@@ -26,7 +25,7 @@ export function RegisterForm({ className, ...props }) {
 
 	async function onSubmit(data) {
 		await new Promise((resolve) => {
-			router.post(route('register'), data, {
+			router.post(getPathname('register'), data, {
 				preserveScroll: true,
 				onFinish: () => {
 					resetField('password');

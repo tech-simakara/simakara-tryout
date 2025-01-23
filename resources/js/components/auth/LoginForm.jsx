@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/Checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils';
+import { cn, getPathname } from '@/lib/utils';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
@@ -25,7 +25,7 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 
 	async function onSubmit(data) {
 		await new Promise((resolve) => {
-			router.post(route('login'), data, {
+			router.post(getPathname('login'), data, {
 				preserveScroll: true,
 				onFinish: () => {
 					resetField('password');
