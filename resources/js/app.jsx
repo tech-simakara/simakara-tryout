@@ -2,6 +2,7 @@ import '../css/app.css';
 import './bootstrap';
 
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { Toaster } from '@/components/Sonner';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
@@ -22,6 +23,10 @@ createInertiaApp({
 					disableTransitionOnChange
 				>
 					<App {...props} />
+					<Toaster
+						richColors
+						closeButton
+					/>
 				</ThemeProvider>,
 			);
 			return;
@@ -34,6 +39,10 @@ createInertiaApp({
 				disableTransitionOnChange
 			>
 				<App {...props} />
+				<Toaster
+					richColors
+					closeButton
+				/>
 			</ThemeProvider>,
 		);
 	},

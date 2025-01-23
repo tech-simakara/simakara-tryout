@@ -2,7 +2,7 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils.js';
+import { cn } from '@/lib/utils';
 import { router, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { useEffect } from 'react';

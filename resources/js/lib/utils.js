@@ -9,6 +9,11 @@ export function getPathname(routeName) {
 	return new URL(route(routeName)).pathname;
 }
 
+export function isActiveMenu(menuHref, url) {
+	const currentPath = new URL(url).pathname;
+	return currentPath === menuHref || currentPath.startsWith(menuHref);
+}
+
 export function getInitials(name) {
 	if (!name) return 'ST';
 	return name
@@ -17,3 +22,5 @@ export function getInitials(name) {
 		.slice(0, 2)
 		.join('');
 }
+
+export const isObjectEmpty = (obj) => !Object.keys(obj).length;

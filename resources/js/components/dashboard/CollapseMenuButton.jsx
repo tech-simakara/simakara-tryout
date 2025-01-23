@@ -43,7 +43,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 							</span>
 							<p
 								className={cn(
-									'max-w-[150px] transition-all duration-300',
+									'max-w-[150px] transition-[colors,opacity] duration-300',
 									isOpen ? 'opacity-100' : 'opacity-0',
 								)}
 							>
@@ -52,7 +52,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						</div>
 						<div
 							className={cn(
-								'whitespace-nowrap transition-all duration-300',
+								'whitespace-nowrap transition-[colors,opacity] duration-300',
 								isOpen ? 'opacity-100' : 'opacity-0',
 							)}
 						>
@@ -69,9 +69,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 					<Button
 						key={index}
 						variant={
-							(active === undefined && url === href) || active
-								? 'default'
-								: 'ghost'
+							(active === undefined && url === href) || active ? 'default' : 'ghost'
 						}
 						className={cn(
 							'mb-1 h-10 w-full justify-start',
@@ -84,7 +82,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						<Link href={href}>
 							<p
 								className={cn(
-									'ml-2 max-w-[170px] transition-all duration-300',
+									'ml-2 max-w-[170px] transition-[colors,opacity] duration-300',
 									isOpen ? 'opacity-100' : 'opacity-0',
 								)}
 							>
@@ -112,7 +110,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 										</span>
 										<p
 											className={cn(
-												'max-w-[200px] transition-all duration-300',
+												'max-w-[200px] transition-[colors,opacity] duration-300',
 												isOpen === false ? 'opacity-0' : 'opacity-100',
 											)}
 										>
