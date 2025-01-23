@@ -18,9 +18,11 @@
 
 {{-- Details --}}
 @isset($details)
+<div class="details">
 @foreach ($details as $data)
-- {{ $data }}
+<small>{{ $data }}</small><br>
 @endforeach
+</div><br>
 @endisset
 
 {{-- Action Button --}}

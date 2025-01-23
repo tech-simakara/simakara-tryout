@@ -144,9 +144,7 @@ export function DeleteUserForm({ className, ...props }) {
 											Sedang memuat...
 										</>
 									) : (
-										<>
-											<Trash2 className='mr-2' /> Hapus Akun
-										</>
+										'Hapus Akun'
 									)}
 								</Button>
 							</DialogFooter>

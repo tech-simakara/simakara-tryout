@@ -27,8 +27,16 @@
 			}
 
 			@media only screen and (max-width: 500px) {
+				.content-cell {
+					padding: 32px 16px !important;
+				}
+
 				.button {
 					width: 100% !important;
+				}
+
+				.details {
+					font-size: 13px !important;
 				}
 			}
 		</style>
