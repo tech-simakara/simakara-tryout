@@ -26,6 +26,7 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 	async function onSubmit(data) {
 		await new Promise((resolve) => {
 			router.post(route('login'), data, {
+				preserveScroll: true,
 				onFinish: () => {
 					resetField('password');
 					resolve();

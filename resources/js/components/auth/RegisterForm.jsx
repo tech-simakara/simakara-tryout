@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export function RegisterForm({ className, ...props }) {
-	const { errors } = usePage().props;
+	const pageErrors = usePage().props.errors;
 
 	const form = useForm({
 		defaultValues: {
@@ -21,35 +21,30 @@ export function RegisterForm({ className, ...props }) {
 		},
 	});
 
-	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting } = formState;
+	const { control, handleSubmit, formState, resetField, setError } = form;
+	const { isSubmitting, errors } = formState;
 
 	async function onSubmit(data) {
-		await new Promise(() => {
+		await new Promise((resolve) => {
 			router.post(route('register'), data, {
+				preserveScroll: true,
 				onFinish: () => {
-					reset({
-						name: data.name,
-						email: data.email,
-						password: '',
-						password_confirmation: '',
-					});
+					resetField('password');
+					resetField('password_confirmation');
+					resolve();
 				},
 			});
 		});
 	}
 
 	useEffect(() => {
-		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['name', 'email', 'password', 'password_confirmation']);
-			if (errorSchema.safeParse(error).success) {
-				setError(error, {
-					type: 'server',
-					message: errors[error] || 'Terjadi kesalahan.',
-				});
-			}
+		Object.keys(pageErrors).forEach((error) => {
+			setError(error, {
+				type: 'server',
+				message: pageErrors[error] || 'Terjadi kesalahan.',
+			});
 		});
-	}, [errors, setError]);
+	}, [pageErrors, setError]);
 
 	return (
 		<div
