@@ -52,7 +52,7 @@ export function Menu({ isOpen }) {
 													<Button
 														variant={
 															(active === undefined &&
-																url.startsWith(href)) ||
+																href === url) ||
 															active
 																? 'default'
 																: 'ghost'
@@ -67,7 +67,7 @@ export function Menu({ isOpen }) {
 															/>
 															<p
 																className={cn(
-																	'max-w-[200px] transition-all duration-300',
+																	'max-w-[200px] transition-[colors,opacity] duration-300',
 																	isOpen === false
 																		? 'opacity-0'
 																		: 'opacity-100',

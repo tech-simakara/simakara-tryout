@@ -1,7 +1,7 @@
+import DeleteUserForm from '@/components/dashboard/profile/DeleteUserForm.jsx';
+import UpdatePasswordForm from '@/components/dashboard/profile/UpdatePasswordForm.jsx';
+import UpdateProfileInformationForm from '@/components/dashboard/profile/UpdateProfileInformationForm.jsx';
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
-import DeleteUserForm from '@/pages/profile/partials/DeleteUserForm';
-import UpdatePasswordForm from '@/pages/profile/partials/UpdatePasswordForm';
-import UpdateProfileInformationForm from '@/pages/profile/partials/UpdateProfileInformationForm';
 import { Head } from '@inertiajs/react';
 
 export default function Edit({ mustVerifyEmail, status }) {

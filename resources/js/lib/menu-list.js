@@ -1,5 +1,5 @@
-import { LayoutGrid, User, Users } from 'lucide-react';
 import { getPathname } from '@/lib/utils';
+import { LayoutGrid, User, Users } from 'lucide-react';
 
 export function getMenuList() {
 	return [
@@ -23,11 +23,11 @@ export function getMenuList() {
 					icon: Users,
 					submenus: [
 						{
-							href: 'dashboard/users',
+							href: '/dashboard/users',
 							label: 'Daftar Pengguna',
 						},
 						{
-							href: 'dashboard/users/create',
+							href: '/dashboard/users/create',
 							label: 'Tambah Pengguna',
 						},
 					],

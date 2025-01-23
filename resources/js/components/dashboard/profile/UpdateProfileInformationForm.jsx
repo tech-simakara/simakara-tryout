@@ -4,36 +4,35 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/Input';
 import { cn } from '@/lib/utils';
 import { Link, router, usePage } from '@inertiajs/react';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
-export function ResetPasswordForm({ token, email, className, ...props }) {
+export function UpdateProfileInformationForm({ mustVerifyEmail, status, className, ...props }) {
+	const { user } = usePage().props.auth;
 	const { errors } = usePage().props;
 
 	const form = useForm({
 		defaultValues: {
-			token: token,
-			email: email,
-			password: '',
-			password_confirmation: '',
+			name: user.name,
+			email: user.email,
 		},
 	});
 
 	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting } = formState;
+	const { isSubmitting, isDirty } = formState;
 
 	async function onSubmit(data) {
 		await new Promise(() => {
-			router.post(route('password.store'), data, {
+			router.patch(route('profile.update'), data, {
+				preserveScroll: true,
+				onSuccess: () => {
+					toast.success('Berhasil memperbarui informasi profil.');
+				},
 				onFinish: () => {
-					reset({
-						token: data.token,
-						email: data.email,
-						password: '',
-						password_confirmation: '',
-					});
+					reset({ name: data.name, email: data.email });
 				},
 			});
 		});
@@ -41,7 +40,7 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 
 	useEffect(() => {
 		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['token', 'email', 'password', 'password_confirmation']);
+			const errorSchema = z.enum(['name', 'email']);
 			if (errorSchema.safeParse(error).success) {
 				setError(error, {
 					type: 'server',
@@ -56,15 +55,37 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 			className={cn('flex flex-col gap-6', className)}
 			{...props}
 		>
-			<Card>
+			<Card className='rounded-none border-none shadow-none'>
 				<CardHeader>
-					<CardTitle className='text-2xl'>Kata Sandi Baru</CardTitle>
-					<CardDescription>Masukkan kata sandi baru Anda di bawah ini.</CardDescription>
+					<CardTitle className='text-2xl'>Informasi Profil</CardTitle>
+					<CardDescription>Perbarui informasi profil akun Anda.</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className='flex flex-col gap-4'>
+								<FormField
+									control={control}
+									name='name'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel htmlFor='name'>Nama Lengkap</FormLabel>
+											<FormControl>
+												<Input
+													className={cn(
+														errors.name &&
+															'border-destructive focus-visible:ring-destructive',
+													)}
+													id='name'
+													type='text'
+													autoFocus
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 								<FormField
 									control={control}
 									name='email'
@@ -87,55 +108,36 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 										</FormItem>
 									)}
 								/>
-								<FormField
-									control={control}
-									name='password'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
-											<FormControl>
-												<Input
-													className={cn(
-														errors.password &&
-															'border-destructive focus-visible:ring-destructive',
-													)}
-													id='password'
-													type='password'
-													autoFocus
-													{...field}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-								<FormField
-									control={control}
-									name='password_confirmation'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel htmlFor='password_confirmation'>
-												Konfirmasi Kata Sandi
-											</FormLabel>
-											<FormControl>
-												<Input
-													className={cn(
-														errors.password_confirmation &&
-															'border-destructive focus-visible:ring-destructive',
-													)}
-													id='password_confirmation'
-													type='password'
-													{...field}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+								{mustVerifyEmail && user.email_verified_at === null && (
+									<div>
+										<div
+											className='space-y-2 rounded-lg bg-yellow-50 p-4 text-sm text-yellow-800 dark:bg-gray-800 dark:text-yellow-300'
+											role='alert'
+										>
+											<p>Alamat email Anda belum diverifikasi.</p>
+											<Button
+												variant={'outline'}
+												asChild
+											>
+												<Link
+													href={route('verification.send')}
+													method='post'
+												>
+													Kirim Ulang Tautan Verifikasi Email
+												</Link>
+											</Button>
+										</div>
+										{status === 'verification-link-sent' && (
+											<div className='mt-4 text-sm font-medium text-success dark:text-success-400'>
+												Berhasil mengirim tautan verifikasi baru.
+											</div>
+										)}
+									</div>
+								)}
 								<Button
 									type='submit'
-									className='w-full'
-									disabled={isSubmitting}
+									className='w-fit self-end'
+									disabled={!isDirty || isSubmitting}
 								>
 									{isSubmitting ? (
 										<>
@@ -143,17 +145,8 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 											Sedang memuat...
 										</>
 									) : (
-										'Reset Kata Sandi'
+										'Simpan'
 									)}
-								</Button>
-								<Button
-									variant={'ghost'}
-									className='w-full'
-									asChild
-								>
-									<Link href={route('login')}>
-										<ChevronLeft /> Halaman Masuk
-									</Link>
 								</Button>
 							</div>
 						</form>

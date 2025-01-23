@@ -11,9 +11,9 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/DropdownMenu';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip';
+import { getInitials } from '@/lib/utils';
 import { Link, usePage } from '@inertiajs/react';
 import { LayoutGrid, LogOut, User } from 'lucide-react';
-import { getInitials } from '@/lib/utils.js';
 
 export function UserNav() {
 	const { user } = usePage().props.auth;
@@ -33,7 +33,9 @@ export function UserNav() {
 										src='#'
 										alt='Avatar'
 									/>
-									<AvatarFallback className='bg-transparent'>{getInitials(user.name)}</AvatarFallback>
+									<AvatarFallback className='bg-transparent'>
+										{getInitials(user.name)}
+									</AvatarFallback>
 								</Avatar>
 							</Button>
 						</DropdownMenuTrigger>

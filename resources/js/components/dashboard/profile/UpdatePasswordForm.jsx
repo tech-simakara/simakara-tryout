@@ -3,34 +3,38 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
 import { cn } from '@/lib/utils';
-import { Link, router, usePage } from '@inertiajs/react';
-import { ChevronLeft, Loader } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
-export function ResetPasswordForm({ token, email, className, ...props }) {
+export function UpdatePasswordForm({ className, ...props }) {
 	const { errors } = usePage().props;
 
 	const form = useForm({
 		defaultValues: {
-			token: token,
-			email: email,
+			current_password: '',
 			password: '',
 			password_confirmation: '',
 		},
 	});
 
 	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting } = formState;
+	const { isSubmitting, isDirty } = formState;
 
 	async function onSubmit(data) {
 		await new Promise(() => {
-			router.post(route('password.store'), data, {
+			router.put(route('password.update'), data, {
+				errorBag: 'updatePassword',
+				preserveScroll: true,
+				onSuccess: () => {
+					toast.success('Berhasil memperbarui kata sandi.');
+				},
 				onFinish: () => {
 					reset({
-						token: data.token,
-						email: data.email,
+						current_password: '',
 						password: '',
 						password_confirmation: '',
 					});
@@ -40,12 +44,12 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 	}
 
 	useEffect(() => {
-		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['token', 'email', 'password', 'password_confirmation']);
+		Object.keys(errors.updatePassword || {}).forEach((error) => {
+			const errorSchema = z.enum(['current_password', 'password', 'password_confirmation']);
 			if (errorSchema.safeParse(error).success) {
 				setError(error, {
 					type: 'server',
-					message: errors[error] || 'Terjadi kesalahan.',
+					message: errors.updatePassword[error] || 'Terjadi kesalahan.',
 				});
 			}
 		});
@@ -56,10 +60,13 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 			className={cn('flex flex-col gap-6', className)}
 			{...props}
 		>
-			<Card>
+			<Card className='rounded-none border-none shadow-none'>
 				<CardHeader>
-					<CardTitle className='text-2xl'>Kata Sandi Baru</CardTitle>
-					<CardDescription>Masukkan kata sandi baru Anda di bawah ini.</CardDescription>
+					<CardTitle className='text-2xl'>Perbarui Kata Sandi</CardTitle>
+					<CardDescription>
+						Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk
+						menjaga keamanan.
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
@@ -67,19 +74,22 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 							<div className='flex flex-col gap-4'>
 								<FormField
 									control={control}
-									name='email'
+									name='current_password'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel htmlFor='email'>Email</FormLabel>
+											<FormLabel htmlFor='current_password'>
+												Kata Sandi Saat Ini
+											</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
-														errors.email &&
+														errors.updatePassword &&
+															errors.updatePassword
+																.current_password &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
-													id='email'
-													type='email'
-													disabled
+													id='current_password'
+													type='password'
 													{...field}
 												/>
 											</FormControl>
@@ -92,16 +102,18 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 									name='password'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
+											<FormLabel htmlFor='password'>
+												Kata Sandi Baru
+											</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
-														errors.password &&
+														errors.updatePassword &&
+															errors.updatePassword.password &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password'
 													type='password'
-													autoFocus
 													{...field}
 												/>
 											</FormControl>
@@ -120,7 +132,9 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 											<FormControl>
 												<Input
 													className={cn(
-														errors.password_confirmation &&
+														errors.updatePassword &&
+															errors.updatePassword
+																.password_confirmation &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
 													id='password_confirmation'
@@ -134,8 +148,8 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 								/>
 								<Button
 									type='submit'
-									className='w-full'
-									disabled={isSubmitting}
+									className='w-fit self-end'
+									disabled={!isDirty || isSubmitting}
 								>
 									{isSubmitting ? (
 										<>
@@ -143,17 +157,8 @@ export function ResetPasswordForm({ token, email, className, ...props }) {
 											Sedang memuat...
 										</>
 									) : (
-										'Reset Kata Sandi'
+										'Simpan'
 									)}
-								</Button>
-								<Button
-									variant={'ghost'}
-									className='w-full'
-									asChild
-								>
-									<Link href={route('login')}>
-										<ChevronLeft /> Halaman Masuk
-									</Link>
 								</Button>
 							</div>
 						</form>
