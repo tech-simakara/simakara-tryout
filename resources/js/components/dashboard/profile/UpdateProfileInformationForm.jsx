@@ -2,17 +2,16 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
 import { Input } from '@/components/Input';
-import { cn } from '@/lib/utils';
+import { cn, getPathname } from '@/lib/utils';
 import { Link, router, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 export function UpdateProfileInformationForm({ mustVerifyEmail, status, className, ...props }) {
+	const pageErrors = usePage().props.errors;
 	const { user } = usePage().props.auth;
-	const { errors } = usePage().props;
 
 	const form = useForm({
 		defaultValues: {
@@ -21,34 +20,29 @@ export function UpdateProfileInformationForm({ mustVerifyEmail, status, classNam
 		},
 	});
 
-	const { control, handleSubmit, formState, reset, setError } = form;
-	const { isSubmitting, isDirty } = formState;
+	const { control, handleSubmit, formState, setError } = form;
+	const { isSubmitting, isDirty, errors } = formState;
 
 	async function onSubmit(data) {
-		await new Promise(() => {
-			router.patch(route('profile.update'), data, {
+		await new Promise((resolve) => {
+			router.patch(getPathname('profile.update'), data, {
 				preserveScroll: true,
 				onSuccess: () => {
 					toast.success('Berhasil memperbarui informasi profil.');
 				},
-				onFinish: () => {
-					reset({ name: data.name, email: data.email });
-				},
+				onFinish: () => resolve(),
 			});
 		});
 	}
 
 	useEffect(() => {
-		Object.keys(errors).forEach((error) => {
-			const errorSchema = z.enum(['name', 'email']);
-			if (errorSchema.safeParse(error).success) {
-				setError(error, {
-					type: 'server',
-					message: errors[error] || 'Terjadi kesalahan.',
-				});
-			}
+		Object.keys(pageErrors).forEach((error) => {
+			setError(error, {
+				type: 'server',
+				message: pageErrors[error] || 'Terjadi kesalahan.',
+			});
 		});
-	}, [errors, setError]);
+	}, [pageErrors, setError]);
 
 	return (
 		<div
@@ -66,28 +60,6 @@ export function UpdateProfileInformationForm({ mustVerifyEmail, status, classNam
 							<div className='flex flex-col gap-4'>
 								<FormField
 									control={control}
-									name='name'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel htmlFor='name'>Nama Lengkap</FormLabel>
-											<FormControl>
-												<Input
-													className={cn(
-														errors.name &&
-															'border-destructive focus-visible:ring-destructive',
-													)}
-													id='name'
-													type='text'
-													autoFocus
-													{...field}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-								<FormField
-									control={control}
 									name='email'
 									render={({ field }) => (
 										<FormItem>
@@ -101,6 +73,28 @@ export function UpdateProfileInformationForm({ mustVerifyEmail, status, classNam
 													id='email'
 													type='email'
 													disabled
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={control}
+									name='name'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel htmlFor='name'>Nama Lengkap</FormLabel>
+											<FormControl>
+												<Input
+													className={cn(
+														errors.name &&
+															'border-destructive focus-visible:ring-destructive',
+													)}
+													id='name'
+													type='text'
+													autoFocus
 													{...field}
 												/>
 											</FormControl>
