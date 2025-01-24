@@ -17,9 +17,18 @@ import { useState } from 'react';
 
 export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 	const { url } = usePage();
+
+	const isMenuActive = (currentUrl, href) => {
+		if (currentUrl === href) return true;
+
+		const [path] = currentUrl.split('?');
+		return path === href;
+	};
+
 	const isSubmenuActive = submenus.some((submenu) =>
-		submenu.active === undefined ? submenu.href === url : submenu.active,
+		submenu.active === undefined ? isMenuActive(url, submenu.href) : submenu.active,
 	);
+
 	const [isCollapsed, setIsCollapsed] = useState(isSubmenuActive);
 
 	return isOpen ? (
@@ -69,11 +78,13 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 					<Button
 						key={index}
 						variant={
-							(active === undefined && url === href) || active ? 'default' : 'ghost'
+							(active === undefined && isMenuActive(url, href)) || active
+								? 'default'
+								: 'ghost'
 						}
 						className={cn(
 							'mb-1 h-10 w-full justify-start',
-							(active === undefined && url === href) || active
+							(active === undefined && isMenuActive(url, href)) || active
 								? 'bg-primary-100 text-foreground hover:bg-primary-200'
 								: '',
 						)}
@@ -145,7 +156,7 @@ export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 						<Link
 							className={cn(
 								'cursor-pointer',
-								((active === undefined && url === href) || active) &&
+								((active === undefined && isMenuActive(url, href)) || active) &&
 									'bg-primary text-primary-foreground focus:bg-primary/90 focus:text-primary-foreground',
 							)}
 							href={href}

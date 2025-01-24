@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +21,19 @@ class UserResource extends JsonResource
 			'id' => $this->id,
 			'name' => $this->name,
 			'email' => $this->email,
+			'permissions' => $this->getAllPermissions()
+				->map(function ($permission) {
+					return $permission->name;
+				}),
+			'roles' => $this->getRoleNames()->map(function ($role) {
+				return [
+					'name' => $role,
+					'label' => RoleEnum::labels()[$role] ?? $role
+				];
+			}),
+			'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->translatedFormat('d/m/Y') : null,
+			'created_at' => $this->created_at->translatedFormat('d/m/Y'),
+			'updated_at' => $this->updated_at->translatedFormat('d/m/Y'),
 		];
     }
 }

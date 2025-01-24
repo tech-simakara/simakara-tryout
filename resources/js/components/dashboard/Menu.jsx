@@ -8,8 +8,17 @@ import { Link, usePage } from '@inertiajs/react';
 import { Ellipsis, LogOut } from 'lucide-react';
 
 export function Menu({ isOpen }) {
-	const { url } = usePage();
+	const { url, component } = usePage();
 	const menuList = getMenuList();
+
+	const isMenuActive = (currentUrl, href) => {
+		// Jika URL saat ini sama persis dengan href
+		if (currentUrl === href) return true;
+
+		// Jika URL saat ini mengandung query string, cocokkan hanya bagian path
+		const [path] = currentUrl.split('?'); // Pisahkan path dan query string
+		return path === href;
+	};
 
 	return (
 		<ScrollArea className='-mr-2 [&>div>div[style]]:!block'>
@@ -52,7 +61,7 @@ export function Menu({ isOpen }) {
 													<Button
 														variant={
 															(active === undefined &&
-																href === url) ||
+																isMenuActive(url, href)) ||
 															active
 																? 'default'
 																: 'ghost'
