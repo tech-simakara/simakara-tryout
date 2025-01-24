@@ -8,15 +8,13 @@ import { Link, usePage } from '@inertiajs/react';
 import { Ellipsis, LogOut } from 'lucide-react';
 
 export function Menu({ isOpen }) {
-	const { url, component } = usePage();
+	const { url } = usePage();
 	const menuList = getMenuList();
 
 	const isMenuActive = (currentUrl, href) => {
-		// Jika URL saat ini sama persis dengan href
 		if (currentUrl === href) return true;
 
-		// Jika URL saat ini mengandung query string, cocokkan hanya bagian path
-		const [path] = currentUrl.split('?'); // Pisahkan path dan query string
+		const [path] = currentUrl.split('?');
 		return path === href;
 	};
 

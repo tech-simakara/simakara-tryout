@@ -11,16 +11,13 @@ import { DataTable } from '@/components/DataTable';
 import { userColumns } from '@/components/dashboard/users/UserColumns';
 import { DashboardContentLayout } from '@/layouts/DashboardContentLayout';
 import DashboardLayout from '@/layouts/DashboardLayout';
-import { getPathname } from '@/lib/utils.js';
+import { getPathname } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 
 const Users = ({ users }) => {
-	console.log('users', users);
 	const [search, setSearch] = useState(users?.search || '');
 	const [perPage, setPerPage] = useState(users?.meta.per_page);
-	console.log('users?.meta.per_page', users?.meta.per_page);
-	console.log('perPage', perPage);
 
 	const debounce = (fn, delay) => {
 		let timeout;

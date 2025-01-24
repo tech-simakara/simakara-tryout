@@ -1,6 +1,6 @@
-import { Badge } from '@/components/Badge.jsx';
-import { Button } from '@/components/Button.jsx';
-import { Checkbox } from '@/components/Checkbox.jsx';
+import { Badge } from '@/components/Badge';
+import { Button } from '@/components/Button';
+import { Checkbox } from '@/components/Checkbox';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/DropdownMenu.jsx';
+} from '@/components/DropdownMenu';
 import { Link } from '@inertiajs/react';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 

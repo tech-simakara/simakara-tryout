@@ -1,12 +1,12 @@
-import { Button } from '@/components/Button.jsx';
+import { Button } from '@/components/Button';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
-} from '@/components/DropdownMenu.jsx';
-import { Input } from '@/components/Input.jsx';
-import { Pagination } from '@/components/Pagination.jsx';
+} from '@/components/DropdownMenu';
+import { Input } from '@/components/Input';
+import { Pagination } from '@/components/Pagination';
 import {
 	Select,
 	SelectContent,
@@ -15,9 +15,9 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/Select.jsx';
+} from '@/components/Select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/Table';
-import { cn, snakeToNormal } from '@/lib/utils.js';
+import { cn, snakeToNormal } from '@/lib/utils';
 import {
 	flexRender,
 	getCoreRowModel,
@@ -56,7 +56,7 @@ export function DataTable({
 			rowSelection,
 		},
 	});
-	console.log('per_page nihhh', data.meta.per_page);
+
 	return (
 		<div
 			className={cn(className)}

@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button.jsx';
+import { Button } from '@/components/Button';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { useMemo } from 'react';
