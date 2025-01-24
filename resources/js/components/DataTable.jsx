@@ -33,7 +33,6 @@ export function DataTable({
 	placeholderSearch,
 	valueSearch,
 	onChangeSearch,
-	valuePerPage,
 	onValueChangePerPage,
 	className,
 	...props
