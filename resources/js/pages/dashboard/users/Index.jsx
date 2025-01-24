@@ -8,7 +8,6 @@ import {
 } from '@/components/Breadcrumb';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { DataTable } from '@/components/DataTable';
-import { Input } from '@/components/Input.jsx';
 import { userColumns } from '@/components/dashboard/users/UserColumns';
 import { DashboardContentLayout } from '@/layouts/DashboardContentLayout';
 import DashboardLayout from '@/layouts/DashboardLayout';
@@ -17,8 +16,11 @@ import { Link, router } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 
 const Users = ({ users }) => {
+	console.log('users', users);
 	const [search, setSearch] = useState(users?.search || '');
-	const [perPage, setPerPage] = useState(users.per_page);
+	const [perPage, setPerPage] = useState(users?.meta.per_page);
+	console.log('users?.meta.per_page', users?.meta.per_page);
+	console.log('perPage', perPage);
 
 	const debounce = (fn, delay) => {
 		let timeout;
@@ -48,6 +50,11 @@ const Users = ({ users }) => {
 
 		setSearch(value);
 		debouncedSearch(value);
+	};
+
+	const handlePerPageChange = (value) => {
+		setPerPage(value);
+		router.get(getPathname('users.index'), { per_page: value }, { only: ['users'] });
 	};
 
 	useEffect(() => {
@@ -83,6 +90,8 @@ const Users = ({ users }) => {
 									placeholderSearch={'Cari nama lengkap atau email...'}
 									valueSearch={search}
 									onChangeSearch={handleSearch}
+									valuePerPage={perPage}
+									onValueChangePerPage={handlePerPageChange}
 									columns={userColumns}
 									data={users}
 								/>

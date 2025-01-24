@@ -6,20 +6,26 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/DropdownMenu.jsx';
 import { Input } from '@/components/Input.jsx';
+import { Pagination } from '@/components/Pagination.jsx';
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/Select.jsx';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/Table';
-import { cn, getPathname, snakeToNormal } from '@/lib/utils.js';
-import { Link, router } from '@inertiajs/react';
+import { cn, snakeToNormal } from '@/lib/utils.js';
 import {
 	flexRender,
 	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Settings2 } from 'lucide-react';
+import { Settings2 } from 'lucide-react';
 import { useState } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select.jsx';
 
 export function DataTable({
 	columns,
@@ -27,11 +33,12 @@ export function DataTable({
 	placeholderSearch,
 	valueSearch,
 	onChangeSearch,
+	valuePerPage,
+	onValueChangePerPage,
 	className,
 	...props
 }) {
 	const [sorting, setSorting] = useState([]);
-	const [columnFilters, setColumnFilters] = useState([]);
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [rowSelection, setRowSelection] = useState({});
 
@@ -39,40 +46,29 @@ export function DataTable({
 		data: data.data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
-		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
 		state: {
 			sorting,
-			columnFilters,
 			columnVisibility,
 			rowSelection,
 		},
 	});
-
-	const handlePerPageChange = (perPage) => {
-		router.get(
-			getPathname('users.index'),
-			{ per_page: perPage },
-			{ only: ['users'] }
-		);
-	};
-
+	console.log('per_page nihhh', data.meta.per_page);
 	return (
 		<div
 			className={cn(className)}
 			{...props}
 		>
-			<div className='flex items-center py-4 gap-2'>
+			<div className='flex items-center gap-2 py-4'>
 				<Input
 					placeholder={placeholderSearch}
 					value={valueSearch}
 					onChange={onChangeSearch}
 					className='max-w-sm'
+					autoFocus
 				/>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -159,87 +155,41 @@ export function DataTable({
 					</TableBody>
 				</Table>
 			</div>
-			<div className='flex flex-wrap items-center justify-center sm:justify-between py-4 gap-4'>
+			<div className='flex flex-wrap items-center justify-center gap-4 py-4 sm:justify-between'>
 				<div className='text-sm text-muted-foreground'>
 					{table.getFilteredSelectedRowModel().rows.length} dari{' '}
 					{table.getFilteredRowModel().rows.length} baris dipilih
 				</div>
-				<div className="flex flex-wrap items-center justify-center gap-4 lg:gap-8">
-					{/*<div className="flex items-center space-x-2">
-						<p className="text-sm font-medium">Baris per halaman</p>
+				<div className='flex flex-wrap items-center justify-center gap-4 lg:gap-8'>
+					<div className='flex items-center space-x-2'>
+						<p className='text-sm font-medium'>Baris per halaman</p>
 						<Select
-							defaultValue={'10'}
-							onValueChange={(value) => handlePerPageChange(value)}
+							defaultValue={`${data.meta.per_page}`}
+							onValueChange={onValueChangePerPage}
 						>
-							<SelectTrigger className="w-[70px] border border-primary">
-								<SelectValue placeholder={table.getState().pagination.pageSize} />
+							<SelectTrigger className='w-[70px] border border-primary'>
+								<SelectValue placeholder={data.meta.per_page} />
 							</SelectTrigger>
-							<SelectContent side="top">
-								{[10, 25, 50, 100].map((pageSize) => (
-									<SelectItem key={pageSize} value={`${pageSize}`}>
-										{pageSize}
-									</SelectItem>
-								))}
+							<SelectContent side='top'>
+								<SelectGroup>
+									<SelectLabel>Baris per halaman</SelectLabel>
+									{[10, 25, 50, 100].map((pageSize) => (
+										<SelectItem
+											key={pageSize}
+											value={`${pageSize}`}
+											selected={pageSize === data.meta.per_page}
+										>
+											{pageSize}
+										</SelectItem>
+									))}
+								</SelectGroup>
 							</SelectContent>
 						</Select>
-					</div>*/}
+					</div>
 					<div className='flex items-center justify-center text-sm font-medium'>
 						Halaman {data.meta.current_page} dari {data.meta.last_page}
 					</div>
-					<div className='flex items-center space-x-1 sm:space-x-2'>
-						<Button
-							variant='outline'
-							size='icon'
-							disabled={data.meta.current_page === 1}
-							asChild
-						>
-							<Link
-								href={data.links.first}
-								as='button'
-							>
-								<ChevronsLeft />
-							</Link>
-						</Button>
-						<Button
-							variant='outline'
-							size='icon'
-							disabled={!data.links.prev}
-							asChild
-						>
-							<Link
-								href={data.links.prev}
-								as='button'
-							>
-								<ChevronLeft />
-							</Link>
-						</Button>
-						<Button
-							variant='outline'
-							size='icon'
-							disabled={!data.links.next}
-							asChild
-						>
-							<Link
-								href={data.links.next}
-								as='button'
-							>
-								<ChevronRight />
-							</Link>
-						</Button>
-						<Button
-							variant='outline'
-							size='icon'
-							disabled={data.meta.current_page === data.meta.last_page}
-							asChild
-						>
-							<Link
-								href={data.links.last}
-								as='button'
-							>
-								<ChevronsRight />
-							</Link>
-						</Button>
-					</div>
+					<Pagination data={data} />
 				</div>
 			</div>
 		</div>

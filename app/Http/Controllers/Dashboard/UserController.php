@@ -20,7 +20,7 @@ class UserController extends Controller
 		$query->whereNotIn('id', [auth()->id()]);
 
 		if ($request->filled('search')) {
-			$query->where('name', 'like', '%' . $request->search . '%')
+			$query->where('name', 'ilike', '%' . $request->search . '%')
 				->orWhere('email', 'like', '%' . $request->search . '%');
 		}
 
