@@ -87,7 +87,6 @@ const Users = ({ users }) => {
 									placeholderSearch={'Cari nama lengkap atau email...'}
 									valueSearch={search}
 									onChangeSearch={handleSearch}
-									valuePerPage={perPage}
 									onValueChangePerPage={handlePerPageChange}
 									columns={userColumns}
 									data={users}
