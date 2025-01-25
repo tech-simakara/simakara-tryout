@@ -9,6 +9,16 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { DataTable } from '@/components/DataTable';
 import { Input } from '@/components/Input.jsx';
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectSeparator,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/Select.jsx';
 import { userColumns } from '@/components/dashboard/users/UserColumns';
 import { useUserFilterStore } from '@/hooks/use-user-filter-store';
 import { DashboardContentLayout } from '@/layouts/DashboardContentLayout';
@@ -16,58 +26,11 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import { getPathname } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
 import { Search } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 const Users = ({ users, filters }) => {
-	/*const [search, setSearch] = useState(users?.search || '');
-	const [perPage, setPerPage] = useState(users?.meta.per_page);
-
-	const debounce = (fn, delay) => {
-		let timeout;
-		return (...args) => {
-			clearTimeout(timeout);
-			timeout = setTimeout(() => fn(...args), delay);
-		};
-	};
-
-	const debouncedSearch = useMemo(
-		() =>
-			debounce((value) => {
-				router.get(
-					getPathname('users.index'),
-					{ search: value, per_page: perPage },
-					{
-						only: ['users'],
-						preserveState: true,
-					},
-				);
-			}, 300),
-		[perPage],
-	);
-
-	const handleSearch = (e) => {
-		const value = e.target.value;
-
-		setSearch(value);
-		debouncedSearch(value);
-	};
-
-	const handlePerPageChange = (value) => {
-		setPerPage(value);
-		router.get(getPathname('users.index'), { per_page: value }, { only: ['users'] });
-	};
-
-	useEffect(() => {
-		setSearch((prevSearch) => prevSearch || users?.search || '');
-	}, [users?.search]);*/
-
-	const { search, setSearch, perPage, setPerPage, emailVerified, setEmailVerified } = useUserFilterStore();
-
-	/*useEffect(() => {
-		setSearch(filters.search || '');
-		setEmailVerified(filters.email_verified || '');
-		setPerPage(filters.per_page || 10);
-	}, [filters]);*/
+	const { search, setSearch, perPage, setPerPage, emailVerified, setEmailVerified } =
+		useUserFilterStore();
 
 	const buildQueryParams = (overrides = {}) => {
 		const { search, perPage, emailVerified } = useUserFilterStore.getState();
@@ -120,10 +83,13 @@ const Users = ({ users, filters }) => {
 		makeRequest({ per_page: value });
 	};
 
-	const handleEmailVerifiedChange = (e) => {
-		const value = e.target.value;
-		setEmailVerified(value);
-		makeRequest({ email_verified: value });
+	const handleEmailVerifiedChange = (value) => {
+		const normalizedValue = value === 'all' ? '' : value;
+
+		setEmailVerified(normalizedValue);
+		makeRequest({
+			email_verified: normalizedValue || undefined,
+		});
 	};
 
 	return (
@@ -156,16 +122,43 @@ const Users = ({ users, filters }) => {
 									columns={userColumns}
 									data={users}
 								>
-									<div className='grid grid-cols-2 w-full gap-4'>
+									<div className='flex w-fit items-center gap-2'>
 										<Input
+											className='w-[150px] lg:w-[250px]'
 											startIcon={Search}
-											placeholder='Cari nama lengkap atau email...'
+											placeholder='Cari pengguna...'
 											value={search}
 											onChange={handleSearchChange}
 										/>
-										<div>
-											Halo
-										</div>
+										<Select
+											defaultValue={`${emailVerified}` || ''}
+											onValueChange={handleEmailVerifiedChange}
+										>
+											<SelectTrigger className='border border-primary w-48'>
+												<SelectValue placeholder={emailVerified || 'Semua'} />
+											</SelectTrigger>
+											<SelectContent side='top'>
+												<SelectGroup>
+													<SelectLabel>Status verifikasi</SelectLabel>
+													<SelectSeparator />
+													<SelectItem value='all' selected={!emailVerified}>
+														Semua
+													</SelectItem>
+													<SelectItem
+														value='true'
+														selected={!!emailVerified}
+													>
+														Terverifikasi
+													</SelectItem>
+													<SelectItem
+														value='false'
+														selected={!!emailVerified}
+													>
+														Belum terverifikasi
+													</SelectItem>
+												</SelectGroup>
+											</SelectContent>
+										</Select>
 									</div>
 								</DataTable>
 							</CardContent>

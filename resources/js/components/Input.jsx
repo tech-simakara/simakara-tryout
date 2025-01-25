@@ -60,7 +60,7 @@ const Input = React.forwardRef(
 		}
 
 		return (
-			<div className='group relative flex w-full items-center'>
+			<div className='group relative flex items-center'>
 				{StartIcon && (
 					<div className='absolute left-3 top-1/2 -translate-y-1/2 transform'>
 						<StartIcon
