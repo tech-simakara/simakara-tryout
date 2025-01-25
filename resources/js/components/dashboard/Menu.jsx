@@ -11,6 +11,13 @@ export function Menu({ isOpen }) {
 	const { url } = usePage();
 	const menuList = getMenuList();
 
+	const isMenuActive = (currentUrl, href) => {
+		if (currentUrl === href) return true;
+
+		const [path] = currentUrl.split('?');
+		return path === href;
+	};
+
 	return (
 		<ScrollArea className='-mr-2 [&>div>div[style]]:!block'>
 			<nav className='mt-4 h-full w-full pr-2 lg:mt-8'>
@@ -52,7 +59,7 @@ export function Menu({ isOpen }) {
 													<Button
 														variant={
 															(active === undefined &&
-																href === url) ||
+																isMenuActive(url, href)) ||
 															active
 																? 'default'
 																: 'ghost'

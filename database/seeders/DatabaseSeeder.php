@@ -66,5 +66,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Member',
             'email' => 'member@example.com',
         ])->assignRole(RoleEnum::Member);
+
+		/** Create Users */
+		$this->call([
+			UserSeeder::class,
+		]);
     }
 }

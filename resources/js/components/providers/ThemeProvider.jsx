@@ -19,10 +19,8 @@ const disableAnimation = (nonce) => {
 	document.head.appendChild(css);
 
 	return () => {
-		// Force restyle
 		(() => window.getComputedStyle(document.body))();
 
-		// Wait for next tick before removing
 		setTimeout(() => {
 			document.head.removeChild(css);
 		}, 1);
@@ -59,7 +57,6 @@ export function ThemeProvider({
 			root.classList.add(theme);
 		}
 
-		// Re-enable transitions after theme change
 		if (disableTransitionOnChange && cleanupAnimation) {
 			cleanupAnimation();
 		}

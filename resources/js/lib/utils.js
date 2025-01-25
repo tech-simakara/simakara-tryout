@@ -24,3 +24,7 @@ export function getInitials(name) {
 }
 
 export const isObjectEmpty = (obj) => !Object.keys(obj).length;
+
+export function snakeToNormal(string) {
+	return string.replace(/_/g, ' ');
+}
