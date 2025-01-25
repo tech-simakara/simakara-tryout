@@ -1,101 +1,97 @@
-import { Button } from '@/components/Button';
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import * as React from 'react';
+
+import { buttonVariants } from '@/components/button';
+import { cn } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import { useMemo } from 'react';
 
-export function Pagination({ data }) {
-	const currentParams = useMemo(() => {
-		const params = new URLSearchParams(window.location.search);
-		const queryObject = {};
-		params.forEach((value, key) => {
-			queryObject[key] = value;
-		});
-		return queryObject;
-	}, [window.location.search]);
+const Pagination = ({ className, ...props }) => (
+	<nav
+		role='navigation'
+		aria-label='pagination'
+		className={cn('mx-auto flex w-full justify-center', className)}
+		{...props}
+	/>
+);
+Pagination.displayName = 'Pagination';
 
-	const buildUrl = (baseUrl, newParams = {}) => {
-		if (!baseUrl) return null;
+const PaginationContent = React.forwardRef(({ className, ...props }, ref) => (
+	<ul
+		ref={ref}
+		className={cn('flex flex-row items-center gap-1', className)}
+		{...props}
+	/>
+));
+PaginationContent.displayName = 'PaginationContent';
 
-		const url = new URL(baseUrl);
-		const params = new URLSearchParams(currentParams);
+const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (
+	<li
+		ref={ref}
+		className={cn('', className)}
+		{...props}
+	/>
+));
+PaginationItem.displayName = 'PaginationItem';
 
-		Object.entries(newParams).forEach(([key, value]) => {
-			if (value === null || value === undefined) {
-				params.delete(key);
-			} else {
-				params.set(key, value);
-			}
-		});
+const PaginationLink = ({ className, isActive, size = 'icon', ...props }) => (
+	<Link
+		aria-current={isActive ? 'page' : undefined}
+		className={cn(
+			buttonVariants({
+				variant: isActive ? 'outline' : 'ghost',
+				size,
+			}),
+			className,
+		)}
+		{...props}
+	/>
+);
+PaginationLink.displayName = 'PaginationLink';
 
-		url.search = params.toString();
-		return url.toString();
-	};
+const PaginationPrevious = ({ className, ...props }) => (
+	<PaginationLink
+		aria-label='Go to previous page'
+		size='default'
+		className={cn('gap-1 pl-2.5', className)}
+		{...props}
+	>
+		<ChevronLeft className='h-4 w-4' />
+		<span>Previous</span>
+	</PaginationLink>
+);
+PaginationPrevious.displayName = 'PaginationPrevious';
 
-	const nextPage =
-		data.meta.current_page < data.meta.last_page
-			? data.meta.current_page + 1
-			: data.meta.current_page;
-	const prevPage =
-		data.meta.current_page > 1 ? data.meta.current_page - 1 : data.meta.current_page;
+const PaginationNext = ({ className, ...props }) => (
+	<PaginationLink
+		aria-label='Go to next page'
+		size='default'
+		className={cn('gap-1 pr-2.5', className)}
+		{...props}
+	>
+		<span>Next</span>
+		<ChevronRight className='h-4 w-4' />
+	</PaginationLink>
+);
+PaginationNext.displayName = 'PaginationNext';
 
-	return (
-		<div className='flex items-center space-x-1 sm:space-x-2'>
-			<Button
-				variant='outline'
-				size='icon'
-				disabled={data.meta.current_page === 1}
-				asChild
-			>
-				<Link
-					href={buildUrl(data.links.first, { page: 1 })}
-					as='button'
-					preserveState
-				>
-					<ChevronsLeft />
-				</Link>
-			</Button>
-			<Button
-				variant='outline'
-				size='icon'
-				disabled={!data.links.prev}
-				asChild
-			>
-				<Link
-					href={buildUrl(data.links.prev, { page: prevPage })}
-					as='button'
-					preserveState
-				>
-					<ChevronLeft />
-				</Link>
-			</Button>
-			<Button
-				variant='outline'
-				size='icon'
-				disabled={!data.links.next}
-				asChild
-			>
-				<Link
-					href={buildUrl(data.links.next, { page: nextPage })}
-					as='button'
-					preserveState
-				>
-					<ChevronRight />
-				</Link>
-			</Button>
-			<Button
-				variant='outline'
-				size='icon'
-				disabled={data.meta.current_page === data.meta.last_page}
-				asChild
-			>
-				<Link
-					href={buildUrl(data.links.last, { page: data.meta.last_page })}
-					as='button'
-					preserveState
-				>
-					<ChevronsRight />
-				</Link>
-			</Button>
-		</div>
-	);
-}
+const PaginationEllipsis = ({ className, ...props }) => (
+	<span
+		aria-hidden
+		className={cn('flex h-9 w-9 items-center justify-center', className)}
+		{...props}
+	>
+		<MoreHorizontal className='h-4 w-4' />
+		<span className='sr-only'>More pages</span>
+	</span>
+);
+PaginationEllipsis.displayName = 'PaginationEllipsis';
+
+export {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+};
