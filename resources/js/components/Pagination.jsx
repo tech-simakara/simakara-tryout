@@ -37,6 +37,7 @@ const PaginationLink = ({ className, isActive, size = 'icon', ...props }) => (
 	<Link
 		aria-current={isActive ? 'page' : undefined}
 		className={cn(
+			'line-clamp-1 leading-9',
 			buttonVariants({
 				variant: isActive ? 'outline' : 'ghost',
 				size,

@@ -1,4 +1,3 @@
-import { Pagination } from '@/components/Pagination.jsx';
 import {
 	Select,
 	SelectContent,
@@ -8,9 +7,9 @@ import {
 	SelectSeparator,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/Select.jsx';
+} from '@/components/Select';
 
-export function DataTablePagination({ handlePerPageChange, data, table }) {
+export function DataTablePagination({ handlePerPageChange, data, table, children }) {
 	const { meta } = data;
 	const totalRows = meta.total;
 	const currentPage = meta.current_page;
@@ -19,10 +18,10 @@ export function DataTablePagination({ handlePerPageChange, data, table }) {
 
 	return (
 		<div className='flex flex-wrap items-center justify-center gap-4 py-4 sm:justify-between'>
-			<div className='text-sm text-muted-foreground'>
+			<div className='mr-auto text-sm text-muted-foreground'>
 				{table.getFilteredSelectedRowModel().rows.length} dari {totalRows} baris dipilih
 			</div>
-			<div className='flex flex-wrap items-center justify-center gap-4 lg:gap-8'>
+			<div className='flex items-center justify-center gap-4 lg:gap-8'>
 				<div className='flex items-center space-x-2'>
 					<p className='text-sm font-medium'>Baris per halaman</p>
 					<Select
@@ -52,7 +51,7 @@ export function DataTablePagination({ handlePerPageChange, data, table }) {
 				<div className='flex items-center justify-center text-sm font-medium'>
 					Halaman {currentPage} dari {lastPage}
 				</div>
-				<Pagination data={data} />
+				{children}
 			</div>
 		</div>
 	);

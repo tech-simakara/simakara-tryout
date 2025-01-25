@@ -1,7 +1,7 @@
 import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { Checkbox } from '@/components/Checkbox';
-import { DataTableColumnHeader } from '@/components/DataTableColumnHeader.jsx';
+import { DataTableColumnHeader } from '@/components/DataTableColumnHeader';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/DropdownMenu';
 import { Link } from '@inertiajs/react';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 export const userColumns = [
 	{
@@ -79,7 +79,7 @@ export const userColumns = [
 		},
 		cell: ({ row }) => {
 			return (
-				<div className='flex gap-1 flex-wrap'>
+				<div className='flex flex-wrap gap-1'>
 					{row.getValue('roles').map((role, key) => (
 						<Badge
 							key={key}

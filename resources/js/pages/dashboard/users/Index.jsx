@@ -8,7 +8,7 @@ import {
 } from '@/components/Breadcrumb';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { DataTable } from '@/components/DataTable';
-import { Input } from '@/components/Input.jsx';
+import { Input } from '@/components/Input';
 import {
 	Select,
 	SelectContent,
@@ -18,7 +18,7 @@ import {
 	SelectSeparator,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/Select.jsx';
+} from '@/components/Select';
 import { userColumns } from '@/components/dashboard/users/UserColumns';
 import { useUserFilterStore } from '@/hooks/use-user-filter-store';
 import { DashboardContentLayout } from '@/layouts/DashboardContentLayout';
@@ -28,7 +28,7 @@ import { Link, router } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import { useMemo } from 'react';
 
-const Users = ({ users, filters }) => {
+const Users = ({ users, pagination }) => {
 	const { search, setSearch, perPage, setPerPage, emailVerified, setEmailVerified } =
 		useUserFilterStore();
 
@@ -51,7 +51,7 @@ const Users = ({ users, filters }) => {
 
 	const makeRequest = (overrides = {}) => {
 		router.get(getPathname('users.index'), buildQueryParams(overrides), {
-			only: ['users'],
+			only: ['users', 'pagination'],
 			preserveState: true,
 		});
 	};
@@ -92,6 +92,12 @@ const Users = ({ users, filters }) => {
 		});
 	};
 
+	const pageHandler = (page) => {
+		makeRequest({ page });
+	};
+
+	const handlePageChange = (page) => () => pageHandler(page);
+
 	return (
 		<>
 			<Breadcrumb>
@@ -119,6 +125,8 @@ const Users = ({ users, filters }) => {
 								<DataTable
 									className='max-w-7xl'
 									handlePerPageChange={handlePerPageChange}
+									handlePageChange={handlePageChange}
+									pagination={pagination}
 									columns={userColumns}
 									data={users}
 								>
@@ -134,14 +142,19 @@ const Users = ({ users, filters }) => {
 											defaultValue={`${emailVerified}` || ''}
 											onValueChange={handleEmailVerifiedChange}
 										>
-											<SelectTrigger className='border border-primary w-48'>
-												<SelectValue placeholder={emailVerified || 'Semua'} />
+											<SelectTrigger className='w-48 border border-primary'>
+												<SelectValue
+													placeholder={emailVerified || 'Semua'}
+												/>
 											</SelectTrigger>
 											<SelectContent side='top'>
 												<SelectGroup>
 													<SelectLabel>Status verifikasi</SelectLabel>
 													<SelectSeparator />
-													<SelectItem value='all' selected={!emailVerified}>
+													<SelectItem
+														value='all'
+														selected={!emailVerified}
+													>
 														Semua
 													</SelectItem>
 													<SelectItem

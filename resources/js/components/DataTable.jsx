@@ -1,5 +1,6 @@
-import { DataTablePagination } from '@/components/DataTablePagination.jsx';
-import { DataTableViewOptions } from '@/components/DataTableViewOptions.jsx';
+import { ControlledPagination } from '@/components/ControlledPagination';
+import { DataTablePagination } from '@/components/DataTablePagination';
+import { DataTableViewOptions } from '@/components/DataTableViewOptions';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/Table';
 import { cn } from '@/lib/utils';
 import {
@@ -10,7 +11,16 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-export function DataTable({ columns, data, handlePerPageChange, className, children, ...props }) {
+export function DataTable({
+	columns,
+	data,
+	handlePerPageChange,
+	handlePageChange,
+	pagination,
+	className,
+	children,
+	...props
+}) {
 	const [sorting, setSorting] = useState([]);
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [rowSelection, setRowSelection] = useState({});
@@ -96,7 +106,12 @@ export function DataTable({ columns, data, handlePerPageChange, className, child
 				handlePerPageChange={handlePerPageChange}
 				data={data}
 				table={table}
-			/>
+			>
+				<ControlledPagination
+					handlePageChange={handlePageChange}
+					pagination={pagination}
+				/>
+			</DataTablePagination>
 		</div>
 	);
 }

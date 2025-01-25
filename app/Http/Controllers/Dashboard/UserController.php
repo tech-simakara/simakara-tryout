@@ -40,7 +40,13 @@ class UserController extends Controller
 
 		return inertia('dashboard/users/Index', [
 			'users' => UserResource::collection($users),
-			'filters' => $request->only(['search', 'email_verified', 'per_page']),
+			'pagination' => [
+				'current_page' => $users->currentPage(),
+				'last_page' => $users->lastPage(),
+				'per_page' => $users->perPage(),
+				'total' => $users->total(),
+				'links' => $users->linkCollection(),
+			],
 		]);
     }
 

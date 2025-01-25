@@ -18,7 +18,7 @@ export function DataTableViewOptions({ table }) {
 				<Button
 					variant='outline'
 					size='sm'
-					className='ml-auto h-9 flex'
+					className='ml-auto flex h-9'
 				>
 					<Settings2 />
 					Kolom
