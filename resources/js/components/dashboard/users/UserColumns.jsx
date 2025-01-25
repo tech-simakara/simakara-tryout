@@ -1,6 +1,7 @@
 import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { Checkbox } from '@/components/Checkbox';
+import { DataTableColumnHeader } from '@/components/DataTableColumnHeader.jsx';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,7 +18,7 @@ export const userColumns = [
 		id: 'select',
 		header: ({ table }) => (
 			<Checkbox
-				className='bg-white'
+				className='bg-white shadow-white'
 				checked={
 					table.getIsAllPageRowsSelected() ||
 					(table.getIsSomePageRowsSelected() && 'indeterminate')
@@ -40,19 +41,14 @@ export const userColumns = [
 		accessorKey: 'name',
 		header: ({ column }) => {
 			return (
-				<div>
-					<Button
-						variant='ghost'
-						onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-					>
-						Nama Lengkap
-						<ArrowUpDown />
-					</Button>
-				</div>
+				<DataTableColumnHeader
+					column={column}
+					title='Nama Lengkap'
+				/>
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-4 line-clamp-1'>{row.getValue('name')}</span>;
+			return <span className='ml-3 line-clamp-1'>{row.getValue('name')}</span>;
 		},
 		enableHiding: false,
 	},
@@ -60,28 +56,30 @@ export const userColumns = [
 		accessorKey: 'email',
 		header: ({ column }) => {
 			return (
-				<div>
-					<Button
-						variant='ghost'
-						onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-					>
-						Email
-						<ArrowUpDown />
-					</Button>
-				</div>
+				<DataTableColumnHeader
+					column={column}
+					title='Email'
+				/>
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-4 line-clamp-1'>{row.getValue('email')}</span>;
+			return <span className='ml-3 line-clamp-1'>{row.getValue('email')}</span>;
 		},
 		enableHiding: false,
 	},
 	{
 		accessorKey: 'roles',
-		header: 'Peran',
+		header: ({ column }) => {
+			return (
+				<DataTableColumnHeader
+					column={column}
+					title='Peran'
+				/>
+			);
+		},
 		cell: ({ row }) => {
 			return (
-				<div>
+				<div className='flex gap-1 flex-wrap'>
 					{row.getValue('roles').map((role, key) => (
 						<Badge
 							key={key}
@@ -106,18 +104,15 @@ export const userColumns = [
 		accessorKey: 'email_verified_at',
 		header: ({ column }) => {
 			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Tanggal Diverifikasi
-					<ArrowUpDown />
-				</Button>
+				<DataTableColumnHeader
+					column={column}
+					title='Diverifikasi'
+				/>
 			);
 		},
 		cell: ({ row }) => {
 			return (
-				<div className='ml-4'>
+				<div className='ml-3'>
 					{row.getValue('email_verified_at') ? (
 						row.getValue('email_verified_at')
 					) : (
@@ -131,34 +126,28 @@ export const userColumns = [
 		accessorKey: 'created_at',
 		header: ({ column }) => {
 			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Tanggal Dibuat
-					<ArrowUpDown />
-				</Button>
+				<DataTableColumnHeader
+					column={column}
+					title='Dibuat'
+				/>
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-4'>{row.getValue('created_at')}</span>;
+			return <span className='ml-3'>{row.getValue('created_at')}</span>;
 		},
 	},
 	{
 		accessorKey: 'updated_at',
 		header: ({ column }) => {
 			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Tanggal Diperbarui
-					<ArrowUpDown />
-				</Button>
+				<DataTableColumnHeader
+					column={column}
+					title='Diperbarui'
+				/>
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-4'>{row.getValue('updated_at')}</span>;
+			return <span className='ml-3'>{row.getValue('updated_at')}</span>;
 		},
 	},
 	{
@@ -175,7 +164,7 @@ export const userColumns = [
 							size='icon'
 							className='hover:bg-primary-200'
 						>
-							<span className='sr-only'>Open Menu</span>
+							<span className='sr-only'>Open menu</span>
 							<MoreHorizontal className='h-4 w-4' />
 						</Button>
 					</DropdownMenuTrigger>
