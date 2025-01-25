@@ -20,14 +20,33 @@ class UserController extends Controller
 		$query->whereNotIn('id', [auth()->id()]);
 
 		if ($request->filled('search')) {
-			$query->where('name', 'like', '%' . $request->search . '%')
-				->orWhere('email', 'like', '%' . $request->search . '%');
+			$query->where(function ($subQuery) use ($request) {
+				$subQuery->where('name', 'ilike', '%' . $request->search . '%')
+					->orWhere('email', 'like', '%' . $request->search . '%');
+			});
 		}
 
-		$users = $query->paginate($request->get('per_page', 10));
+		if ($request->filled('email_verified')) {
+			$emailVerified = filter_var($request->email_verified, FILTER_VALIDATE_BOOLEAN);
+			$query->when($emailVerified, function ($q) {
+				$q->whereNotNull('email_verified_at');
+			}, function ($q) {
+				$q->whereNull('email_verified_at');
+			});
+		}
+
+		$perPage = $request->get('per_page', 10);
+		$users = $query->paginate($perPage);
 
 		return inertia('dashboard/users/Index', [
 			'users' => UserResource::collection($users),
+			'pagination' => [
+				'current_page' => $users->currentPage(),
+				'last_page' => $users->lastPage(),
+				'per_page' => $users->perPage(),
+				'total' => $users->total(),
+				'links' => $users->linkCollection(),
+			],
 		]);
     }
 

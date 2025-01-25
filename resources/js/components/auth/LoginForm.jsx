@@ -65,14 +65,13 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 									name='email'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel htmlFor='email'>Email</FormLabel>
+											<FormLabel>Email</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
 														errors.email &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
-													id='email'
 													type='email'
 													autoFocus
 													{...field}
@@ -87,14 +86,13 @@ export function LoginForm({ canResetPassword, className, ...props }) {
 									name='password'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel htmlFor='password'>Kata Sandi</FormLabel>
+											<FormLabel>Kata Sandi</FormLabel>
 											<FormControl>
 												<Input
 													className={cn(
 														errors.password &&
 															'border-destructive focus-visible:ring-destructive',
 													)}
-													id='password'
 													type='password'
 													{...field}
 												/>
