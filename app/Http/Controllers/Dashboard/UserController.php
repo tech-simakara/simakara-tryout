@@ -35,11 +35,19 @@ class UserController extends Controller
 			});
 		}
 
-		$perPage = $request->get('per_page', 10);
+		if ($request->filled('role')) {
+			$roles = explode(',', $request->role);
+			$query->whereHas('roles', function ($roleQuery) use ($roles) {
+				$roleQuery->whereIn('name', $roles);
+			});
+		}
+
+		$perPage = $request->get('per_page');
 		$users = $query->paginate($perPage);
+		$usersData = UserResource::collection($users)->toArray($request);
 
 		return inertia('dashboard/users/Index', [
-			'users' => UserResource::collection($users),
+			'users' => $usersData,
 			'pagination' => [
 				'current_page' => $users->currentPage(),
 				'last_page' => $users->lastPage(),

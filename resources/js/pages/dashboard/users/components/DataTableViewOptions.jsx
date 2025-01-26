@@ -1,5 +1,3 @@
-import { Settings2 } from 'lucide-react';
-
 import { Button } from '@/components/Button';
 import {
 	DropdownMenu,
@@ -9,6 +7,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/DropdownMenu';
+import { Settings2 } from 'lucide-react';
 import { isValidElement } from 'react';
 
 export function DataTableViewOptions({ table }) {
