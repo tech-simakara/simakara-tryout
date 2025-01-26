@@ -1,4 +1,3 @@
-/*import forms from '@tailwindcss/forms';*/
 import tailwindcssAnimate from 'tailwindcss-animate';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
