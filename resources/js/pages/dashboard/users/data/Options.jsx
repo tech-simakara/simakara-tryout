@@ -15,3 +15,14 @@ export const Roles = [
 		variant: 'turquoise',
 	},
 ];
+
+export const EmailVerified = [
+	{
+		value: 'true',
+		label: 'Verified',
+	},
+	{
+		value: 'false',
+		label: 'Unverified',
+	},
+];
