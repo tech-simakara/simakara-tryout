@@ -13,7 +13,7 @@ import {
 import { Link } from '@inertiajs/react';
 import { MoreHorizontal } from 'lucide-react';
 
-export const UserColumns = [
+export const Columns = [
 	{
 		id: 'select',
 		header: ({ table }) => (

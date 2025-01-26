@@ -29,7 +29,7 @@ const Input = React.forwardRef(
 							autoComplete='off'
 							type={!show ? type : 'text'}
 							className={cn(
-								'peer flex h-9 w-full rounded-md border border-primary bg-transparent px-10 py-1 text-base shadow-sm transition duration-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+								'peer flex h-9 w-full rounded-md border border-primary bg-transparent px-10 py-1 text-sm shadow-sm transition duration-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
 								className,
 							)}
 							ref={ref}
@@ -74,7 +74,7 @@ const Input = React.forwardRef(
 				<input
 					type={type}
 					className={cn(
-						'peer flex h-9 w-full rounded-md border border-primary bg-transparent px-3 py-1 text-base shadow-sm transition duration-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+						'peer flex h-9 w-full rounded-md border border-primary bg-transparent px-3 py-1 text-sm shadow-sm transition duration-300 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
 						startIcon ? 'pl-10' : '',
 						endIcon ? 'pr-10' : '',
 						className,
