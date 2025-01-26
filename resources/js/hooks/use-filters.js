@@ -10,22 +10,13 @@ export const useUserFilterStore = create((set) => ({
 	setPage: (value) => set({ page: value }),
 
 	syncFromQuery: (queryParams) => {
-		set((state) => {
-			const updatedState = { ...state };
+		const search = queryParams.search;
+		const role = queryParams.role;
+		const emailVerified = queryParams.email_verified;
+		const perPage = parseInt(queryParams.per_page, 10);
+		const page = parseInt(queryParams.page, 10);
 
-			if ('search' in queryParams) updatedState.search = queryParams.search;
-			if ('role' in queryParams) updatedState.role = queryParams.role;
-			if ('email_verified' in queryParams)
-				updatedState.emailVerified = queryParams.email_verified;
-			if ('per_page' in queryParams && queryParams.per_page !== undefined) {
-				updatedState.perPage = parseInt(queryParams.per_page, 10);
-			}
-			if ('page' in queryParams && queryParams.page !== undefined) {
-				updatedState.page = parseInt(queryParams.page, 10);
-			}
-
-			return updatedState;
-		});
+		set({ search, role, emailVerified, perPage, page });
 	},
 
 	buildQueryParams: (overrides = {}) => {
@@ -33,15 +24,16 @@ export const useUserFilterStore = create((set) => ({
 		const params = {
 			search,
 			role,
-			per_page: perPage,
 			email_verified: emailVerified,
+			per_page: perPage,
 			page,
 			...overrides,
 		};
 
 		return Object.fromEntries(
 			Object.entries(params).filter(
-				([, value]) => value !== undefined && value !== null && value !== '',
+				([, value]) =>
+					value !== undefined && value !== null && value !== '' && !Number.isNaN(value),
 			),
 		);
 	},
@@ -57,4 +49,6 @@ export const useUserFilterStore = create((set) => ({
 			},
 		);
 	},
+
+	reset: () => set(() => ({})),
 }));

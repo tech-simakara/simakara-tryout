@@ -19,9 +19,7 @@ const Users = ({ users, pagination }) => {
 	const { syncFromQuery } = useUserFilterStore();
 
 	useEffect(() => {
-		const params = route().params;
-
-		syncFromQuery(params);
+		syncFromQuery(route().params);
 	}, [syncFromQuery]);
 
 	return (
