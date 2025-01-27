@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+import { DeleteAlertDialog } from '@/components/dashboard/users/DeleteAlertDialog';
 import { Input } from '@/components/Input';
 import useDebounce from '@/hooks/use-debounce';
 import { useUserFilterStore } from '@/hooks/use-filters';
@@ -34,6 +35,8 @@ export function DataTableToolbar({ table }) {
 		makeRequest({ email_verified: selectedStatus });
 	};
 
+	const hasSelectedRows = table.getSelectedRowModel().rows.length > 0;
+
 	return (
 		<div className='flex items-center justify-between'>
 			<div className='flex flex-1 items-center space-x-2'>
@@ -68,11 +71,12 @@ export function DataTableToolbar({ table }) {
 					title='Email'
 					options={EmailVerified}
 				/>
+				{hasSelectedRows && <DeleteAlertDialog table={table} />}
 				{isFiltered() && (
 					<Button
 						variant='ghost'
 						onClick={() => reset()}
-						className='h-8 px-2 lg:px-3'
+						className='px-2 lg:px-3'
 					>
 						Reset
 						<X />

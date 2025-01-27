@@ -34,7 +34,7 @@ export function DataTableRadioGroupFilter({ column, title, options }) {
 						<DropdownMenuRadioItem
 							key={option.value}
 							value={option.value}
-							className='[&_svg]:data-[state=checked]:text-primary [&_svg]:size-3 [&_svg]:ring-1 [&_svg]:ring-offset-1 [&_svg]:ring-primary [&_svg]:rounded-full'
+							className='[&_svg]:size-3 [&_svg]:rounded-full [&_svg]:ring-1 [&_svg]:ring-primary [&_svg]:ring-offset-1 [&_svg]:data-[state=checked]:text-primary'
 						>
 							{option.label}
 						</DropdownMenuRadioItem>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\Users\DeleteUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
@@ -101,8 +103,19 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(DeleteUserRequest $request, User $user): RedirectResponse
     {
-        //
+		try {
+			if ($request->filled('ids')) {
+				$ids = $request->input('ids', []);
+				User::whereIn('id', $ids)->delete();
+				return back()->with('status', 'success');
+			}
+
+			$user->delete();
+			return back()->with('status', 'success');
+		} catch (\Exception $e) {
+			return back()->with('status', 'error');
+		}
     }
 }

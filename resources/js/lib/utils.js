@@ -5,8 +5,8 @@ export function cn(...inputs) {
 	return twMerge(clsx(inputs));
 }
 
-export function getPathname(routeName) {
-	return new URL(route(routeName)).pathname;
+export function getPathname(routeName, params = {}) {
+	return new URL(route(routeName, params)).pathname;
 }
 
 export function isActiveMenu(menuHref, url) {
