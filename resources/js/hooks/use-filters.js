@@ -50,5 +50,20 @@ export const useUserFilterStore = create((set) => ({
 		);
 	},
 
-	reset: () => set(() => ({})),
+	isFiltered: () => {
+		const { search, role, perPage, emailVerified, page } = useUserFilterStore.getState();
+
+		return Object.values({ search, role, perPage, emailVerified, page }).some(Boolean);
+	},
+
+	reset: () => {
+		const keysToReset = ['search', 'role', 'perPage', 'emailVerified', 'page'];
+		const resetState = keysToReset.reduce((acc, key) => {
+			acc[key] = undefined;
+			return acc;
+		}, {});
+
+		set(resetState);
+		useUserFilterStore.getState().makeRequest(resetState);
+	},
 }));
