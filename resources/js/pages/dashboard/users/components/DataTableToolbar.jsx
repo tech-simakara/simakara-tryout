@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button';
-import { DeleteAlertDialog } from '@/components/dashboard/users/DeleteAlertDialog';
+import { BulkDeleteAlertDialog } from '@/components/dashboard/users/BulkDeleteAlertDialog';
 import { Input } from '@/components/Input';
 import useDebounce from '@/hooks/use-debounce';
 import { useUserFilterStore } from '@/hooks/use-filters';
@@ -71,7 +71,7 @@ export function DataTableToolbar({ table }) {
 					title='Email'
 					options={EmailVerified}
 				/>
-				{hasSelectedRows && <DeleteAlertDialog table={table} />}
+				{hasSelectedRows && <BulkDeleteAlertDialog table={table} />}
 				{isFiltered() && (
 					<Button
 						variant='ghost'
