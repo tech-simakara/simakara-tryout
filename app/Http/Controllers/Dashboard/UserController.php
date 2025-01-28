@@ -44,7 +44,7 @@ class UserController extends Controller
 			});
 		}
 
-		$perPage = $request->get('per_page', 20);
+		$perPage = $request->get('per_page', 10);
 		$users = $query->paginate($perPage);
 		$usersData = UserResource::collection($users)->toArray($request);
 
@@ -55,7 +55,6 @@ class UserController extends Controller
 				'last_page' => $users->lastPage(),
 				'per_page' => $users->perPage(),
 				'total' => $users->total(),
-				'links' => $users->linkCollection(),
 			],
 		]);
     }

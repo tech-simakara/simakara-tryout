@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button';
-import { DeleteAlertDialog } from '@/components/dashboard/users/DeleteAlertDialog';
+import { BulkDeleteAlertDialog } from '@/components/dashboard/users/BulkDeleteAlertDialog';
 import { Input } from '@/components/Input';
 import useDebounce from '@/hooks/use-debounce';
 import { useUserFilterStore } from '@/hooks/use-filters';
@@ -13,15 +13,10 @@ export function DataTableToolbar({ table }) {
 	const { search, setSearch, setRole, setEmailVerified, makeRequest, isFiltered, reset } =
 		useUserFilterStore();
 
-	const { value: searchValue, handleSearch } = useDebounce(
-		search,
-		setSearch,
-		1000,
-		(newValue) => {
-			setSearch(newValue);
-			makeRequest({ search: newValue });
-		},
-	);
+	const { value: searchValue, handleSearch } = useDebounce(search, setSearch, 500, (newValue) => {
+		setSearch(newValue);
+		makeRequest({ search: newValue });
+	});
 
 	const handleRoleChange = (selectedRoles) => {
 		const role = selectedRoles.length > 0 ? selectedRoles.join(',') : '';
@@ -38,7 +33,7 @@ export function DataTableToolbar({ table }) {
 	const hasSelectedRows = table.getSelectedRowModel().rows.length > 0;
 
 	return (
-		<div className='flex items-center justify-between'>
+		<div className='no-scrollbar flex items-center justify-between overflow-x-scroll p-0.5'>
 			<div className='flex flex-1 items-center space-x-2'>
 				<Input
 					className='w-[160px] sm:w-[250px]'
@@ -71,7 +66,7 @@ export function DataTableToolbar({ table }) {
 					title='Email'
 					options={EmailVerified}
 				/>
-				{hasSelectedRows && <DeleteAlertDialog table={table} />}
+				{hasSelectedRows && <BulkDeleteAlertDialog table={table} />}
 				{isFiltered() && (
 					<Button
 						variant='ghost'

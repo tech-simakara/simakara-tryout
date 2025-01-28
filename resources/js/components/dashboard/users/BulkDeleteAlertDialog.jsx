@@ -12,38 +12,49 @@ import { Button } from '@/components/Button';
 import { Form } from '@/components/Form';
 import { cn, getPathname } from '@/lib/utils';
 import { router } from '@inertiajs/react';
-import { Loader } from 'lucide-react';
+import { Loader, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export function DeleteAlertDialog({ data: user, onFinish }) {
+export function BulkDeleteAlertDialog({ table }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const form = useForm();
 
 	const { handleSubmit, formState } = form;
 	const { isSubmitting } = formState;
 
+	const selectedRows = table.getSelectedRowModel().rows;
+	const totalSelected = selectedRows.length;
+	const selectedIds = selectedRows.map((row) => row.original.id);
+
 	async function onSubmit() {
 		try {
 			await new Promise((resolve) => {
-				router.delete(getPathname('users.destroy', user), {
-					preserveState: true,
-					preserveScroll: true,
-					onError: () => {
-						toast.error(`Gagal menghapus pengguna (${user.name}).`);
+				router.post(
+					getPathname('users.destroy', { user: selectedIds[0] }),
+					{
+						ids: selectedIds,
+						_method: 'DELETE',
 					},
-					onSuccess: () => {
-						toast.success(`Berhasil menghapus pengguna (${user.name}).`);
+					{
+						preserveState: true,
+						preserveScroll: true,
+						onError: () => {
+							toast.error(`Gagal menghapus ${totalSelected} pengguna.`);
+						},
+						onSuccess: () => {
+							toast.success(`Berhasil menghapus ${totalSelected} pengguna.`);
+						},
+						onFinish: () => resolve(),
 					},
-					onFinish: () => resolve(),
-				});
+				);
 			});
 		} catch (error) {
-			console.error(`Failed to delete user (${user.name}):`, error);
+			console.error(`Failed to delete ${totalSelected} user(s):`, error);
 		} finally {
+			table.resetRowSelection();
 			setIsOpen(false);
-			onFinish();
 		}
 	}
 
@@ -53,21 +64,22 @@ export function DeleteAlertDialog({ data: user, onFinish }) {
 			onOpenChange={setIsOpen}
 		>
 			<Button
+				className='h-9 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground'
 				size='sm'
-				variant={'destructive'}
-				className='h-7 w-full text-xs'
-				onSelect={(e) => e.preventDefault()}
+				variant='outline'
 				asChild
 			>
-				<AlertDialogTrigger>Hapus</AlertDialogTrigger>
+				<AlertDialogTrigger>
+					<Trash2 />
+					Hapus ({totalSelected})
+				</AlertDialogTrigger>
 			</Button>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Apakah Anda benar-benar yakin?</AlertDialogTitle>
 					<AlertDialogDescription>
-						Tindakan ini tidak dapat dibatalkan. Ini akan secara permanen menghapus akun{' '}
-						<span className='font-bold'>{user.name}</span> dan menghilangkan data
-						tersebut dari server kita.
+						Tindakan ini tidak dapat dibatalkan. Ini akan secara permanen menghapus akun
+						mereka dan menghilangkan data mereka dari server kita.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
@@ -78,7 +90,7 @@ export function DeleteAlertDialog({ data: user, onFinish }) {
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<Button
 								type='submit'
-								variant={'destructive'}
+								variant='destructive'
 								className='w-full'
 								disabled={isSubmitting}
 							>

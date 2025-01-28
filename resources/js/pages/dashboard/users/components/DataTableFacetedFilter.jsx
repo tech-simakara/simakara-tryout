@@ -23,7 +23,7 @@ export function DataTableFacetedFilter({ column, title, options }) {
 				<Button
 					variant='outline'
 					size='sm'
-					className='h-9 border-dashed'
+					className='h-9 border-dashed focus-visible:ring-0'
 				>
 					<PlusCircle />
 					{title}
