@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/Table';
 import { cn } from '@/lib/utils';
-import { DataTableToolbar } from '@/pages/dashboard/users/components/DataTableToolbar';
+import { DataTableToolbar } from './DataTableToolbar';
 import {
 	flexRender,
 	getCoreRowModel,
@@ -8,6 +8,7 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
+import { DataTablePagination } from './DataTablePagination';
 
 export function DataTable({ data, pagination, columns, className, ...props }) {
 	const [sorting, setSorting] = useState([]);
@@ -88,6 +89,7 @@ export function DataTable({ data, pagination, columns, className, ...props }) {
 					</TableBody>
 				</Table>
 			</div>
+			<DataTablePagination table={table} pagination={pagination} />
 		</div>
 	);
 }
