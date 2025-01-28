@@ -83,7 +83,7 @@ export function DataTablePagination({ table, pagination }) {
 						defaultValue={`${perPage}`}
 						onValueChange={handlePerPageChange}
 					>
-						<SelectTrigger className='w-[70px] border border-primary'>
+						<SelectTrigger className='w-[80px] border border-primary'>
 							<SelectValue placeholder={perPage} />
 						</SelectTrigger>
 						<SelectContent side='top'>

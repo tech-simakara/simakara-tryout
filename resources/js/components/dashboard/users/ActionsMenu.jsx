@@ -49,16 +49,6 @@ export function ActionsMenu({ data: user }) {
 							<Link href={route('users.show', user)}>Lihat</Link>
 						</Button>
 					</DropdownMenuItem>
-					<DropdownMenuItem className='p-0'>
-						<Button
-							size='sm'
-							variant='secondary'
-							className='h-7 w-full text-xs'
-							asChild
-						>
-							<Link href={route('users.edit', user)}>Edit</Link>
-						</Button>
-					</DropdownMenuItem>
 					<DropdownMenuItem
 						className='p-0'
 						onSelect={(e) => e.preventDefault()}
