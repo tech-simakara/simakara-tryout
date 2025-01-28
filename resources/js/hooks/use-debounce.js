@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-const useDebounce = (value = '', setValue, delay = 1000, onChange) => {
+const useDebounce = (value = '', setValue, delay = 500, onChange) => {
 	const timeoutRef = useRef(null);
 
 	const handleSearch = (e) => {

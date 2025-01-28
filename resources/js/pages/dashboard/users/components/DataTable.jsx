@@ -1,6 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/Table';
 import { cn } from '@/lib/utils';
-import { DataTableToolbar } from '@/pages/dashboard/users/components/DataTableToolbar';
 import {
 	flexRender,
 	getCoreRowModel,
@@ -8,6 +7,8 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
+import { DataTablePagination } from './DataTablePagination';
+import { DataTableToolbar } from './DataTableToolbar';
 
 export function DataTable({ data, pagination, columns, className, ...props }) {
 	const [sorting, setSorting] = useState([]);
@@ -79,8 +80,13 @@ export function DataTable({ data, pagination, columns, className, ...props }) {
 							<TableRow>
 								<TableCell
 									colSpan={columns.length}
-									className='h-24 text-center'
+									className='h-48 text-center'
 								>
+									<img
+										src='/images/placeholders/placeholder-no-data.png'
+										alt='Not Found'
+										className='mx-auto w-20'
+									/>
 									Tidak ada hasil.
 								</TableCell>
 							</TableRow>
@@ -88,6 +94,10 @@ export function DataTable({ data, pagination, columns, className, ...props }) {
 					</TableBody>
 				</Table>
 			</div>
+			<DataTablePagination
+				table={table}
+				pagination={pagination}
+			/>
 		</div>
 	);
 }

@@ -51,13 +51,13 @@ export const useUserFilterStore = create((set) => ({
 	},
 
 	isFiltered: () => {
-		const { search, role, perPage, emailVerified, page } = useUserFilterStore.getState();
+		const { search, role, emailVerified } = useUserFilterStore.getState();
 
-		return Object.values({ search, role, perPage, emailVerified, page }).some(Boolean);
+		return Object.values({ search, role, emailVerified }).some(Boolean);
 	},
 
 	reset: () => {
-		const keysToReset = ['search', 'role', 'perPage', 'emailVerified', 'page'];
+		const keysToReset = ['search', 'role', 'emailVerified'];
 		const resetState = keysToReset.reduce((acc, key) => {
 			acc[key] = undefined;
 			return acc;
