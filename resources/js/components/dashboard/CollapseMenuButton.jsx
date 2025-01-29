@@ -18,15 +18,16 @@ import { useState } from 'react';
 export function CollapseMenuButton({ icon: Icon, label, submenus, isOpen }) {
 	const { url } = usePage();
 
-	const isMenuActive = (currentUrl, href) => {
-		if (currentUrl === href) return true;
+	const isMenuActive = (currentUrl, href, submenus = []) => {
+		if (submenus.length > 0) {
+			return submenus.some((submenu) => currentUrl.startsWith(submenu.href));
+		}
 
-		const [path] = currentUrl.split('?');
-		return path === href;
+		return currentUrl === href || currentUrl.startsWith(`/${href}`);
 	};
 
 	const isSubmenuActive = submenus.some((submenu) =>
-		submenu.active === undefined ? isMenuActive(url, submenu.href) : submenu.active,
+		submenu.active === undefined ? isMenuActive(url, submenu.href, submenus) : submenu.active,
 	);
 
 	const [isCollapsed, setIsCollapsed] = useState(isSubmenuActive);
