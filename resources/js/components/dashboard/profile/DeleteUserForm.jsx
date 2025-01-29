@@ -74,7 +74,7 @@ export function DeleteUserForm({ className, ...props }) {
 			{...props}
 		>
 			<Card className='rounded-none border-none shadow-none'>
-				<CardHeader>
+				<CardHeader className='p-4 sm:p-6'>
 					<CardTitle className='text-2xl'>Hapus Akun</CardTitle>
 					<CardDescription>
 						Setelah akun Anda dihapus, semua sumber daya dan data akan dihapus secara
@@ -82,7 +82,7 @@ export function DeleteUserForm({ className, ...props }) {
 						pun yang ingin Anda simpan.
 					</CardDescription>
 				</CardHeader>
-				<CardContent>
+				<CardContent className='p-4 sm:p-6'>
 					<Dialog onOpenChange={handleDialogClose}>
 						<DialogTrigger asChild>
 							<Button variant='destructive'>

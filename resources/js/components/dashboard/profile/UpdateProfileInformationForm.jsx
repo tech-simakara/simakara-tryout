@@ -50,11 +50,11 @@ export function UpdateProfileInformationForm({ mustVerifyEmail, status, classNam
 			{...props}
 		>
 			<Card className='rounded-none border-none shadow-none'>
-				<CardHeader>
+				<CardHeader className='p-4 sm:p-6'>
 					<CardTitle className='text-2xl'>Informasi Profil</CardTitle>
 					<CardDescription>Perbarui informasi profil akun Anda.</CardDescription>
 				</CardHeader>
-				<CardContent>
+				<CardContent className='p-4 sm:p-6'>
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className='flex flex-col gap-4'>

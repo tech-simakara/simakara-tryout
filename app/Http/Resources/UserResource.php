@@ -31,9 +31,9 @@ class UserResource extends JsonResource
 					'label' => RoleEnum::labels()[$role] ?? $role
 				];
 			}),
-			'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->translatedFormat('d/m/Y') : null,
-			'created_at' => $this->created_at->translatedFormat('d/m/Y'),
-			'updated_at' => $this->updated_at->translatedFormat('d/m/Y'),
+			'email_verified_at' => $this->email_verified_at,
+			'created_at' => $this->created_at,
+			'updated_at' => $this->updated_at,
 		];
     }
 }

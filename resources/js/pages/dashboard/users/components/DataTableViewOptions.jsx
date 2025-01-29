@@ -17,7 +17,7 @@ export function DataTableViewOptions({ table }) {
 				<Button
 					variant='outline'
 					size='sm'
-					className='ml-auto hidden h-9 lg:flex'
+					className='h-9'
 				>
 					<Settings2 />
 					Lihat

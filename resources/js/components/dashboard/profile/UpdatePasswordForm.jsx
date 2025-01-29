@@ -56,14 +56,14 @@ export function UpdatePasswordForm({ className, ...props }) {
 			{...props}
 		>
 			<Card className='rounded-none border-none shadow-none'>
-				<CardHeader>
+				<CardHeader className='p-4 sm:p-6'>
 					<CardTitle className='text-2xl'>Perbarui Kata Sandi</CardTitle>
 					<CardDescription>
 						Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk
 						menjaga keamanan.
 					</CardDescription>
 				</CardHeader>
-				<CardContent>
+				<CardContent className='p-4 sm:p-6'>
 					<Form {...form}>
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className='flex flex-col gap-4'>

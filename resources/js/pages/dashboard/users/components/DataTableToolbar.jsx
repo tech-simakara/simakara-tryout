@@ -33,7 +33,7 @@ export function DataTableToolbar({ table }) {
 	const hasSelectedRows = table.getSelectedRowModel().rows.length > 0;
 
 	return (
-		<div className='no-scrollbar flex items-center justify-between overflow-x-scroll p-0.5'>
+		<div className='no-scrollbar flex w-full items-center justify-between space-x-2 overflow-x-scroll p-0.5'>
 			<div className='flex flex-1 items-center space-x-2'>
 				<Input
 					className='w-[160px] sm:w-[250px]'
