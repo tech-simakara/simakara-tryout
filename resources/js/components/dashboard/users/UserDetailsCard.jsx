@@ -1,15 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/Avatar';
 import { Badge } from '@/components/Badge';
 import { Card, CardContent, CardHeader } from '@/components/Card';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip.jsx';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip';
 import { getInitials } from '@/lib/utils';
-import { usePage } from '@inertiajs/react';
 import { BadgeAlert, BadgeCheck } from 'lucide-react';
 
 export default function UserDetailsCard({ user }) {
-	const { url } = usePage();
-	console.log('url:', url);
-	console.log('route:', route('users.index'));
 	return (
 		<Card className='w-full max-w-2xl rounded-none border-none shadow-none'>
 			<CardHeader className='flex flex-col items-center gap-4 p-4 sm:flex-row sm:p-6'>
