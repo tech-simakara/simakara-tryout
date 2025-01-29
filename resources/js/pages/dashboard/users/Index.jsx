@@ -41,7 +41,7 @@ const Users = ({ users, pagination }) => {
 				<Card className='overflow-hidden rounded-lg border-none'>
 					<CardContent className='p-0'>
 						<Card className='rounded-none border-none shadow-none'>
-							<CardHeader>
+							<CardHeader className='p-4 sm:p-6'>
 								<CardTitle className='text-2xl'>Daftar Pengguna</CardTitle>
 							</CardHeader>
 							<hr className='h-px border-0 bg-gray-200 dark:bg-gray-700' />

@@ -72,13 +72,14 @@ export function DataTablePagination({ table, pagination }) {
 	const pageNumbers = getPageNumbers();
 
 	return (
-		<div className='no-scrollbar flex items-center justify-between space-x-6 overflow-x-scroll p-0.5'>
-			<div className='min-w-[80px] text-sm text-muted-foreground'>
-				{table.getFilteredSelectedRowModel().rows.length} dari {totalRows} baris dipilih.
-			</div>
-			<div className='flex items-center space-x-6 lg:space-x-8'>
+		<div className='flex w-full flex-col items-center justify-between gap-4 xl:flex-row'>
+			<div className='flex w-full flex-1 justify-between gap-4'>
+				<div className='flex min-w-[80px] max-w-16 flex-1 items-center text-sm text-muted-foreground sm:max-w-none'>
+					{table.getFilteredSelectedRowModel().rows.length} dari {totalRows} baris
+					dipilih.
+				</div>
 				<div className='flex items-center space-x-2'>
-					<p className='text-sm font-medium'>Baris per halaman</p>
+					<p className='max-w-16 text-sm font-medium sm:max-w-none'>Baris per halaman</p>
 					<Select
 						defaultValue={`${perPage}`}
 						onValueChange={handlePerPageChange}
@@ -103,73 +104,84 @@ export function DataTablePagination({ table, pagination }) {
 						</SelectContent>
 					</Select>
 				</div>
-				<div className='flex items-center justify-center text-sm font-medium'>
-					Halaman {currentPage} dari {lastPage}
-				</div>
-				<Pagination className='w-fit'>
-					<PaginationContent>
-						<PaginationItem>
-							<Button
-								variant={'outline'}
-								size={'icon'}
-								onClick={handlePageChange(1)}
-								disabled={currentPage === 1}
-							>
-								<ChevronsLeft />
-							</Button>
-						</PaginationItem>
-						<PaginationItem>
-							<Button
-								variant={'outline'}
-								size={'icon'}
-								onClick={handlePageChange(currentPage - 1)}
-								disabled={currentPage === 1}
-							>
-								<ChevronLeft />
-							</Button>
-						</PaginationItem>
-						{pageNumbers.map((page, index) => {
-							if (page === 'ellipsis-left' || page === 'ellipsis-right') {
-								return (
-									<PaginationItem key={`ellipsis-${index}`}>
-										<PaginationEllipsis />
-									</PaginationItem>
-								);
-							}
-
-							return (
-								<PaginationItem key={page}>
+			</div>
+			<div className='flex flex-col items-center gap-x-6 gap-y-4 xl:flex-row xl:gap-x-8'>
+				<div className='flex flex-col items-center gap-x-8 gap-y-4 xl:flex-row'>
+					<div className='flex-shrink-0 text-center text-sm font-medium'>
+						Halaman {currentPage} dari {lastPage}
+					</div>
+					<Pagination className='mx-0'>
+						<PaginationContent className='grid gap-2'>
+							<div className='col-start-2 row-start-1 flex justify-center gap-1 sm:col-start-1 sm:row-start-1'>
+								<PaginationItem>
 									<Button
-										variant={currentPage === page ? 'default' : 'ghost'}
-										onClick={handlePageChange(page)}
+										variant={'outline'}
+										size={'icon'}
+										onClick={handlePageChange(1)}
+										disabled={currentPage === 1}
 									>
-										{page}
+										<ChevronsLeft />
 									</Button>
 								</PaginationItem>
-							);
-						})}
-						<PaginationItem>
-							<Button
-								variant={'outline'}
-								size={'icon'}
-								onClick={handlePageChange(currentPage + 1)}
-								disabled={currentPage === lastPage}
-							>
-								<ChevronRight />
-							</Button>
-						</PaginationItem>
-						<PaginationItem>
-							<Button
-								variant={'outline'}
-								size={'icon'}
-								onClick={handlePageChange(lastPage)}
-								disabled={currentPage === lastPage}
-							>
-								<ChevronsRight />
-							</Button>
-						</PaginationItem>
-					</PaginationContent>
-				</Pagination>
+								<PaginationItem>
+									<Button
+										variant={'outline'}
+										size={'icon'}
+										onClick={handlePageChange(currentPage - 1)}
+										disabled={currentPage === 1}
+									>
+										<ChevronLeft />
+									</Button>
+								</PaginationItem>
+							</div>
+							<div className='col-span-3 row-start-2 flex justify-center gap-1 sm:col-span-1 sm:col-start-2 sm:row-start-1'>
+								{pageNumbers.map((page, index) => {
+									if (page === 'ellipsis-left' || page === 'ellipsis-right') {
+										return (
+											<PaginationItem key={`ellipsis-${index}`}>
+												<PaginationEllipsis />
+											</PaginationItem>
+										);
+									}
+
+									return (
+										<PaginationItem key={page}>
+											<Button
+												variant={currentPage === page ? 'default' : 'ghost'}
+												size={'icon'}
+												onClick={handlePageChange(page)}
+											>
+												{page}
+											</Button>
+										</PaginationItem>
+									);
+								})}
+							</div>
+							<div className='col-start-2 row-start-3 flex justify-center gap-1 sm:col-start-3 sm:row-start-1'>
+								<PaginationItem>
+									<Button
+										variant={'outline'}
+										size={'icon'}
+										onClick={handlePageChange(currentPage + 1)}
+										disabled={currentPage === lastPage}
+									>
+										<ChevronRight />
+									</Button>
+								</PaginationItem>
+								<PaginationItem>
+									<Button
+										variant={'outline'}
+										size={'icon'}
+										onClick={handlePageChange(lastPage)}
+										disabled={currentPage === lastPage}
+									>
+										<ChevronsRight />
+									</Button>
+								</PaginationItem>
+							</div>
+						</PaginationContent>
+					</Pagination>
+				</div>
 			</div>
 		</div>
 	);

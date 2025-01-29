@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Inertia\Response;
 
 class UserController extends Controller
@@ -46,7 +47,15 @@ class UserController extends Controller
 
 		$perPage = $request->get('per_page', 10);
 		$users = $query->paginate($perPage);
-		$usersData = UserResource::collection($users)->toArray($request);
+
+		$usersData = collect(UserResource::collection($users)->toArray($request))
+			->map(function ($user) {
+				return array_merge($user, [
+					'email_verified_at' => $user['email_verified_at']?->translatedFormat('d/m/Y'),
+					'created_at' => $user['created_at']->translatedFormat('d/m/Y'),
+					'updated_at' => $user['updated_at']->translatedFormat('d/m/Y'),
+				]);
+			});
 
 		return inertia('dashboard/users/Index', [
 			'users' => $usersData,
@@ -78,9 +87,18 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user): Response
     {
-        //
+		$userData = collect((new UserResource($user))->toArray(request()))
+			->merge([
+				'email_verified_at' => $user->email_verified_at?->translatedFormat('l, d F Y H:i:s'),
+				'created_at' => $user->created_at->translatedFormat('l, d F Y H:i:s'),
+				'updated_at' => $user->updated_at->translatedFormat('l, d F Y H:i:s'),
+			]);
+
+        return inertia('dashboard/users/Show', [
+			'user' => $userData,
+		]);
     }
 
     /**

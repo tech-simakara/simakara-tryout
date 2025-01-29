@@ -54,10 +54,17 @@ export function UserNav() {
 						<p className='text-xs leading-none text-muted-foreground'>{user.email}</p>
 					</div>
 					<div className='flex flex-wrap gap-1'>
-						{user.roles.map((role, index) => (
+						{user.roles.map((role, key) => (
 							<Badge
-								key={index}
-								className='mt-2 w-fit'
+								key={key}
+								variant={
+									role.name === 'administrator'
+										? 'default'
+										: role.name === 'maintainer'
+											? 'secondary'
+											: 'turquoise'
+								}
+								className='mt-2'
 							>
 								{role.label}
 							</Badge>

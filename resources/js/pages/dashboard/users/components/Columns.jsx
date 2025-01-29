@@ -8,7 +8,7 @@ export const Columns = [
 		id: 'select',
 		header: ({ table }) => (
 			<Checkbox
-				className='bg-white shadow-white'
+				className='mr-4 bg-white shadow-white'
 				checked={
 					table.getIsAllPageRowsSelected() ||
 					(table.getIsSomePageRowsSelected() && 'indeterminate')
@@ -38,7 +38,7 @@ export const Columns = [
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-3 line-clamp-1'>{row.getValue('name')}</span>;
+			return <span className='line-clamp-1'>{row.getValue('name')}</span>;
 		},
 		enableHiding: false,
 	},
@@ -53,7 +53,7 @@ export const Columns = [
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-3 line-clamp-1'>{row.getValue('email')}</span>;
+			return <span className='line-clamp-1'>{row.getValue('email')}</span>;
 		},
 		enableHiding: false,
 	},
@@ -102,7 +102,7 @@ export const Columns = [
 		},
 		cell: ({ row }) => {
 			return (
-				<div className='ml-3'>
+				<div>
 					{row.getValue('email_verified_at') ? (
 						row.getValue('email_verified_at')
 					) : (
@@ -123,7 +123,7 @@ export const Columns = [
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-3'>{row.getValue('created_at')}</span>;
+			return <span>{row.getValue('created_at')}</span>;
 		},
 	},
 	{
@@ -137,12 +137,19 @@ export const Columns = [
 			);
 		},
 		cell: ({ row }) => {
-			return <span className='ml-3'>{row.getValue('updated_at')}</span>;
+			return <span>{row.getValue('updated_at')}</span>;
 		},
 	},
 	{
 		id: 'actions',
-		header: 'Aksi',
+		header: ({ column }) => {
+			return (
+				<DataTableColumnHeader
+					column={column}
+					title='Aksi'
+				/>
+			);
+		},
 		cell: ({ row }) => {
 			const user = row.original;
 
