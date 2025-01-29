@@ -14,7 +14,7 @@ const Input = React.forwardRef(
 			return (
 				<div className='relative w-full'>
 					<div className='group relative flex items-center'>
-						<div className='absolute left-3 flex items-center'>
+						<div className='pointer-events-none absolute left-3 flex items-center'>
 							<Lock
 								size={18}
 								className={cn(
@@ -60,7 +60,7 @@ const Input = React.forwardRef(
 		return (
 			<div className='group relative flex items-center'>
 				{StartIcon && (
-					<div className='absolute left-3 top-1/2 -translate-y-1/2 transform'>
+					<div className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform'>
 						<StartIcon
 							size={18}
 							className={cn(
