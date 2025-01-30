@@ -11,12 +11,8 @@ export function Menu({ isOpen }) {
 	const { url } = usePage();
 	const menuList = getMenuList();
 
-	const isMenuActive = (currentUrl, href) => {
-		if (currentUrl === href) return true;
-
-		const [path] = currentUrl.split('?');
-		return path === href;
-	};
+	const isMenuActive = (currentUrl, href) =>
+		currentUrl === href || currentUrl.startsWith(`/${href}`);
 
 	return (
 		<ScrollArea className='-mr-2 [&>div>div[style]]:!block'>
