@@ -23,7 +23,7 @@ export function getMenuList() {
 					icon: Users,
 					submenus: [
 						{
-							href: '/dashboard/users',
+							href: getPathname('users.index'),
 							label: 'Daftar Pengguna',
 						},
 						{

@@ -30,7 +30,7 @@ export function SheetMenu() {
 						asChild
 					>
 						<Link
-							href='/dashboard'
+							href={route('dashboard')}
 							className='flex items-center gap-2'
 						>
 							<img
